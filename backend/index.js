@@ -5,24 +5,14 @@ const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY); // Your Stripe secret key
-const path = require("path"); // Required for serving the React build
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '../bolt-cycles/build'))); 
-
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../bolt-cycles/build', 'index.html'));
-});
-
 
 const cyclesmodel = require("./models/cyclemodel");
 const usermodel = require("./models/usersmodel");
 const checkoutModel = require("./models/checkout"); // Assuming you have a checkout model
-
-
 
 // User Registration
 app.post("/register", (req, res) => {
