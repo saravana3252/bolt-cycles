@@ -23,7 +23,6 @@ const usermodel = require("./models/usersmodel");
 const checkoutModel = require("./models/checkout"); // Assuming you have a checkout model
 
 
-app.use(express.static(path.join(__dirname, "client/build")));
 
 // User Registration
 app.post("/register", (req, res) => {
