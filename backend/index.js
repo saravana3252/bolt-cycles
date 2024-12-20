@@ -10,7 +10,7 @@ const path = require("path"); // Required for serving the React build
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'build'))); 
+app.use(express.static(path.join(__dirname, '../bolt-cycles/build'))); 
 
 
 app.get('*', (req, res) => {
