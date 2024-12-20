@@ -1,0 +1,138 @@
+[
+    {
+      "id": 1,
+      "name": "Kryo X26 MTB – Model K",
+      "price": 350.00,
+      "category": "Bicycles",
+      "description": "Durable and reliable Kryo X26 mountain bike, Model K.",
+      "imageurl": "https://websitedemos.net/cycle-shop-02/wp-content/uploads/sites/789/2021/03/bicycle-7.jpg",
+      "stock": 20,
+      "rating": 4.5,
+      "isNewArrival": true,
+      "reviews": [
+        "Great bike for outdoor trails.",
+        "Excellent performance and build quality."
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Kryo X26 MTB – Model X",
+      "price": 350.00,
+      "category": "Bicycles",
+      "description": "Durable and reliable Kryo X26 mountain bike, Model X.",
+      "imageurl": "https://websitedemos.net/cycle-shop-02/wp-content/uploads/sites/789/2021/03/bicycle-1.jpg",
+      "stock": 15,
+      "rating": 4.7,
+      "isNewArrival": true,
+      "reviews": [
+        "Amazing ride experience!",
+        "Highly recommended for beginners and experts."
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Kryo X26 MTB – Model Y",
+      "price": 350.00,
+      "category": "Bicycles",
+      "description": "Durable and reliable Kryo X26 mountain bike, Model Y.",
+      "imageurl": "https://websitedemos.net/cycle-shop-02/wp-content/uploads/sites/789/2021/03/bicycle-5-768x768.jpg",
+      "stock": 10,
+      "rating": 4.3,
+      "isNewArrival": false,
+      "reviews": [
+        "Good quality for the price.",
+        "Smooth ride and great handling."
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Kryo X26 MTB – Model Z",
+      "price": 350.00,
+      "category": "Bicycles",
+      "description": "Durable and reliable Kryo X26 mountain bike, Model Z.",
+      "imageurl": "https://websitedemos.net/cycle-shop-02/wp-content/uploads/sites/789/2021/03/bicycle-4-768x768.jpg",
+      "stock": 5,
+      "rating": 4.6,
+      "isNewArrival": false,
+      "reviews": [
+        "Perfect for mountain trails.",
+        "Solid build and reliable components."
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Bicycle Gloves Blue",
+      "price": 27.00,
+      "category": "Accessories",
+      "description": "Comfortable blue bicycle gloves for all weather.",
+      "imageurl": "https://websitedemos.net/cycle-shop-02/wp-content/uploads/sites/789/2021/04/accessories-4.jpg",
+      "stock": 30,
+      "rating": 4.2,
+      "isNewArrival": true,
+      "reviews": [
+        "Very comfortable.",
+        "Great fit and durable material."
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Bicycle Gloves Gold",
+      "price": 30.00,
+      "category": "Accessories",
+      "description": "Stylish gold bicycle gloves for cycling enthusiasts.",
+      "imageurl": "https://websitedemos.net/cycle-shop-02/wp-content/uploads/sites/789/2021/03/accessories-4.jpg",
+      "stock": 20,
+      "rating": 4.5,
+      "isNewArrival": false,
+      "reviews": [
+        "Looks premium!",
+        "Excellent grip and comfort."
+      ]
+    },
+    {
+      "id": 12,
+      "name": "Bicycle Helmet Pink",
+      "price": 180.00,
+      "category": "Accessories",
+      "description": "Stylish and safe pink bicycle helmet.",
+      "imageurl": "https://websitedemos.net/cycle-shop-02/wp-content/uploads/sites/789/2021/04/helmet-1.jpg",
+      "stock": 12,
+      "rating": 4.8,
+      "isNewArrival": true,
+      "reviews": [
+        "Looks amazing!",
+        "Premium feel and protection."
+      ]
+    },
+    {
+      "id": 13,
+      "name": "Bicycle Helmet Red",
+      "price": 200.00,
+      "category": "Accessories",
+      "description": "Top-tier red bicycle helmet for ultimate safety.",
+      "imageurl": "https://websitedemos.net/cycle-shop-02/wp-content/uploads/sites/789/2021/04/helmet-4.jpg",
+      "stock": 8,
+      "rating": 4.9,
+      "isNewArrival": false,
+      "reviews": [
+        "Unmatched quality.",
+        "Perfect for high-speed cycling."
+      ]
+    },
+    {
+        "id": 14,
+        "name": "Bicycle Helmet Sky Blue",
+        "price": 150.00,
+        "category": "Accessories",
+        "description": "Sky blue bicycle helmet for both safety and style.",
+        "imageurl": "https://websitedemos.net/cycle-shop-02/wp-content/uploads/sites/789/2021/04/helmet-2.jpg",
+        "stock": 10,
+        "rating": 4.7,
+        "isNewArrival": false,
+        "reviews": [
+          "Comfortable and lightweight.",
+          "Great for long rides."
+        ]
+      }
+  ]
+  
