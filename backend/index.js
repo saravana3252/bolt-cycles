@@ -267,7 +267,7 @@ app.get("/success", (req, res) => {
 
         return checkout.save()
           .then(() => {
-           res.redirect("http://localhost:3000/success")
+           res.redirect("https://bolt-cycles001.onrender.com/success")
           });
       } else {
         res.send("Payment was not completed. Please try again.");
@@ -287,7 +287,7 @@ app.get("/cancel", (req, res) => {
   console.log("Payment was cancelled by the user.");
 
   // Return a response to the user after cancellation
-  res.redirect("http://localhost:3000/cancel")
+  res.redirect("https://bolt-cycles001.onrender.com/cancel")
  
 });
 
