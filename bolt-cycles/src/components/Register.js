@@ -22,7 +22,7 @@ function handleInput(e){
 
 function handleSubmit(e){
     e.preventDefault();
-    fetch("http://localhost:8000/register",{
+    fetch("https://bolt-cycles.onrender.com/register",{
         method:"POST",
         body:JSON.stringify(user),
         headers:{

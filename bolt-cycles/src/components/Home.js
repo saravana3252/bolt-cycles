@@ -13,7 +13,7 @@ let [data,setData] = useState([]);
 
 
   useEffect(()=>{
-     fetch("http://localhost:8000/cycle").then((response)=>response.json()).then((data)=>{
+     fetch("https://bolt-cycles.onrender.com/cycle").then((response)=>response.json()).then((data)=>{
       setData(data)
      }).catch((err)=>{
       console.log(err)

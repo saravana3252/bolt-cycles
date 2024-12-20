@@ -22,7 +22,7 @@ function Bicycles(props) {
 
     useEffect(() => {
             if(searchData !== ""){
-                fetch(`http://localhost:8000/bicycle/${searchData}`).then((response) => response.json()).then((data) =>{
+                fetch(`https://bolt-cycles.onrender.com/bicycle/${searchData}`).then((response) => response.json()).then((data) =>{
                     setCycleData(data);
                     console.log(data);
                 }).catch((err) => {
@@ -30,7 +30,7 @@ function Bicycles(props) {
                 })
             }
             else{
-                fetch("http://localhost:8000/cycle/Bicycles")
+                fetch("https://bolt-cycles.onrender.com/cycle/Bicycles")
                 .then((response) => response.json())
                 .then((data) => {
                     setCycleData(data);
@@ -43,7 +43,7 @@ function Bicycles(props) {
     }, [searchData]);
 
     useEffect(() => {
-        fetch("http://localhost:8000/cycle/Bicycles")
+        fetch("https://bolt-cycles.onrender.com/cycle/Bicycles")
             .then((response) => response.json())
             .then((data) => {
                 setCycleData(data);

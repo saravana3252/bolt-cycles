@@ -4,7 +4,7 @@ function OrderList() {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8000/checkout")
+    fetch("https://bolt-cycles.onrender.com/checkout")
       .then((response) => response.json())
       .then((data) => {
         setOrders(data);
@@ -16,7 +16,7 @@ function OrderList() {
 
 
 function handlePaymentStatusChange(e){
-    fetch(`http://localhost:8000/checkout/${e.target.value}`,{})
+    fetch(`https://bolt-cycles.onrender.com/checkout/${e.target.value}`,{})
       .then((response) => response.json())
       .then((data) => {
         console.log("done")

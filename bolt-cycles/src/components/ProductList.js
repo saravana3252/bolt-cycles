@@ -4,7 +4,7 @@ function ProductList() {
   let [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8000/cycle")
+    fetch("https://bolt-cycles.onrender.com/cycle")
       .then((response) => response.json())
       .then((data) => {
         setProducts(data);

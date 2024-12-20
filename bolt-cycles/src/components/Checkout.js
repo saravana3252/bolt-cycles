@@ -83,7 +83,7 @@ price: item.price,  // Send product price
       }
     } else {
       // For COD, directly save the data in the checkout collection
-      const response = await fetch("http://localhost:8000/checkout", {
+      const response = await fetch("https://bolt-cycles.onrender.com/checkout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -13,7 +13,7 @@ function Accessories(props) {
 
     useEffect(() => {
         if (searchData !== "") {
-            fetch(`http://localhost:8000/Accessories/${searchData}`)
+            fetch(`https://bolt-cycles.onrender.com/Accessories/${searchData}`)
                 .then((response) => response.json())
                 .then((data) => {
                     setAccessoriesData(data);
@@ -23,7 +23,7 @@ function Accessories(props) {
                 });
         } 
         else if(FilterData){
-            fetch(`http://localhost:8000/cycles/${FilterData}`).then((response)=>response.json()).then((data)=>{
+            fetch(`https://bolt-cycles.onrender.com/cycles/${FilterData}`).then((response)=>response.json()).then((data)=>{
                 setAccessoriesData(data)
                 console.log(data)
                 console.log(FilterData)
@@ -33,7 +33,7 @@ function Accessories(props) {
         }
         
         else {
-            fetch("http://localhost:8000/cycle/Accessories")
+            fetch("https://bolt-cycles.onrender.com/cycle/Accessories")
                 .then((response) => response.json())
                 .then((data) => {
                     setAccessoriesData(data);
