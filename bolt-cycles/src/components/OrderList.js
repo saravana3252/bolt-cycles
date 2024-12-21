@@ -62,8 +62,8 @@ function OrderList() {
               <div className="flex-1">
                 <h3 className="text-xl font-medium text-gray-700">Payment Status</h3>
                 <select onChange={handlePaymentStatusChange} value={order.paymentStatus}>
-                  <option value="unpaid">Unpaid</option>
-                  <option value="paid">Paid</option>
+                 <option value={order.paymentStatus}>{order.paymentStatus}</option>
+                  {/* <option value="paid">Paid</option> */}
                 </select>
               </div>
 

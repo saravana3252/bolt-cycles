@@ -184,162 +184,155 @@ function Bicycles(props) {
       </div>
 
       {/* Main Content */}
-     {/* Main Content */}
-<div className="flex flex-col md:flex-row mt-10 bg-gray-100 min-h-screen">
-  {/* Filter Toggle Button */}
-  <button
-    className="bg-gray-500 text-white p-2 rounded mb-4 md:hidden"
-    onClick={() => setIsFilterOpen(!isFilterOpen)}
-  >
-    <FontAwesomeIcon icon={faFilter} /> Filter
-  </button>
-
-  {/* Sidebar */}
-  <div className={`w-full md:w-1/4 bg-white p-5 space-y-6 transition-all duration-300 ease-in-out ${isFilterOpen ? 'block' : 'hidden'} md:block`}>
-    {/* Search */}
-    <div className="bg-gray-100 p-4 rounded shadow">
-      <h1 className="text-lg font-bold mb-3">Search</h1>
-      <div className="flex">
-        <input
-          id="searchInp"
-          className="flex-grow p-2 bg-gray-200 rounded-l focus:outline-none"
-          type="search"
-          placeholder="Search bicycles..."
-          onChange={(e) => {
-            setSearchData(e.target.value);
-          }}
-        />
+      <div className="flex flex-col md:flex-row mt-10 bg-gray-100 min-h-screen">
+        {/* Filter Toggle Button */}
         <button
-          className="p-2 bg-red-500 text-white rounded-r"
-          onClick={() => {
-            let value = document.getElementById("searchInp").value;
-            setSearchData(value);
-            console.log(value);
-          }}
+          className="bg-red-500 text-white p-2 rounded mb-4 md:hidden"
+          onClick={() => setIsFilterOpen(!isFilterOpen)}
         >
-          <FontAwesomeIcon icon={faSearch} />
+          <FontAwesomeIcon icon={faFilter} /> Filter
         </button>
-      </div>
-    </div>
 
-    {/* Filter by Price */}
-    <div className="bg-gray-100 p-4 rounded shadow">
-      <h1 className="text-lg font-bold mb-3">Filter by Price</h1>
-      <div className="space-y-2">
-        <label className="flex items-center">
-          <input
-            type="checkbox"
-            className="mr-2"
-            value="250"
-            onChange={(e) => {
-              if (e.target.checked) {
-                setFilterData(e.target.value);
-              } else {
-                setFilterData(null);
-              }
-            }}
-          />{" "}
-          Less than $300
-        </label>
-        <label className="flex items-center">
-          <input
-            type="checkbox"
-            className="mr-2"
-            value="400"
-            onChange={(e) => {
-              if (e.target.checked) {
-                setFilterData(e.target.value);
-              } else {
-                setFilterData(null);
-              }
-            }}
-          />{" "}
-          Less than $400
-        </label>
-        <label className="flex items-center">
-          <input
-            type="checkbox"
-            className="mr-2"
-            value="500"
-            onChange={(e) => {
-              if (e.target.checked) {
-                setFilterData(e.target.value);
-              } else {
-                setFilterData(null);
-              }
-            }}
-          />{" "}
-          Less than $500
-        </label>
-      </div>
-    </div>
-
-    {/* Filter by Categories */}
-    <div className="bg-gray-100 p-4 rounded shadow">
-      <h1 className="text-lg font-bold mb-3">Filter by Categories</h1>
-      <div className="space-y-1">
-        <Link to="/accessories" className="flex items-center justify-between  text-red-600">
-          <span className="flex items-center font-semibold">Accessories</span>
-          <span className="text-gray-500">10 products</span>
-        </Link>
-        <Link to="/bicycles" className="flex items-center justify-between  text-red-600">
-          <span className="flex items-center font-semibold">Bicycles</span>
-          <span className="text-gray-500">4 products</span>
-        </Link>
-      </div>
-    </div>
-  </div>
-
-  {/* Product Grid */}
-  <div className="w-full md:w-3/4 bg-gray-100 p-6">
-    <h1 className="font-bold italic text-4xl text-red-500 mb-8">BICYCLES</h1>
-    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      {loading ? (
-        <div className="loader">
-          <span className="bar"></span>
-          <span className="bar"></span>
-          <span className="bar"></span>
-          <p className="text-black font-bold pl-3">LOADING...</p>
-        </div>
-      ) : cycleData.length > 0 ? (
-        cycleData.map((data, index) => (
-          <div
-            key={index}
-            className="bg-white rounded shadow p-4 relative transform hover:scale-105 transition-transform"
-            onMouseEnter={() => setHoveredIndex(index)}
-            onMouseLeave={() => setHoveredIndex(null)}
-          >
-            {/* Image */}
-            <div className="relative">
-              <img
-                src={data.imageurl}
-                alt="cycle"
-                className="w-full h-48 object-cover rounded"
+        {/* Sidebar */}
+        <div className={`w-full md:w-1/4 bg-white p-5 space-y-6 transition-all duration-300 ease-in-out ${isFilterOpen ? 'block' : 'hidden'} md:block`}>
+          {/* Search */}
+          <div className="bg-gray-100 p-4 rounded shadow">
+            <h1 className="text-lg font-bold mb-3">Search</h1>
+            <div className="flex">
+              <input
+                id="searchInp"
+                className="flex-grow p-2 bg-gray-200 rounded-l focus:outline-none"
+                type="search"
+                placeholder="Search bicycles..."
+                onChange={(e) => {
+                  setSearchData(e.target.value);
+                }}
               />
-              <div
-                className={`absolute top-2 right-2 w-10 h-10 flex items-center justify-center bg-black text-white rounded-full ${
-                  hoveredIndex === index ? "opacity-100" : "opacity-0"
-                } transition-opacity duration-300 cursor-pointer`}
-                onClick={() => props.AddToCart(data)}
+              <button
+                className="p-2 bg-red-500 text-white rounded-r"
+                onClick={() => {
+                  let value = document.getElementById("searchInp").value;
+                  setSearchData(value);
+                  console.log(value);
+                }}
               >
-                <FontAwesomeIcon icon={faCartShopping} />
-              </div>
-            </div>
-            {/* Details */}
-            <div className="mt-4">
-              <p className="text-sm text-gray-500">{data.category}</p>
-              <h2 className="text-lg font-bold text-gray-800">{data.name}</h2>
-              <p className="text-sm text-gray-600">Rating: {data.rating}</p>
-              <p className="text-lg font-bold text-red-500">${data.price}</p>
+                <FontAwesomeIcon icon={faSearch} />
+              </button>
             </div>
           </div>
-        ))
-      ) : (
-        <div>Search not found</div>
-      )}
-    </div>
-  </div>
-</div>
+
+          {/* Filter by Price */}
+          <div className="bg-gray-100 p-4 rounded shadow">
+            <h1 className="text-lg font-bold mb-3">Filter by Price</h1>
+            <div className="space-y-2">
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  className="mr-2"
+                  value="250"
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setFilterData(e.target.value);
+                    } else {
+                      setFilterData(null);
+                    }
+                  }}
+                />{" "}
+                Less than $300
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  className="mr-2"
+                  value="400"
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setFilterData(e.target.value);
+                    } else {
+                      setFilterData(null);
+                    }
+                  }}
+                />{" "}
+                Less than $400
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  className="mr-2"
+                  value="500"
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setFilterData(e.target.value);
+                    } else {
+                      setFilterData(null);
+                    }
+                  }}
+                />{" "}
+                Less than $500
+              </label>
+            </div>
+          </div>
+
+          {/* Filter by Categories */}
+          <div className="bg-gray-100 p-4 rounded shadow">
+            <h1 className="text-lg font-bold mb-3">Filter by Categories</h1>
+            <div className="space-y-1">
+              <Link to="/accessories" className="flex items-center justify-between  text-red-600">
+                <span className="flex items-center font-semibold">Accessories</span>
+                <span className="text-gray-500">10 products</span>
+              </Link>
+              <Link to="/bicycles" className="flex items-center justify-between  text-red-600">
+                <span className="flex items-center font-semibold">Bicycles</span>
+                <span className="text-gray-500">4 products</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Product Grid */}
+        <div className="w-full md:w-3/4 bg-gray-100 p-6">
+          <h1 className="font-bold italic text-4xl text-red-500 mb-8">BICYCLES</h1>
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {loading ? (
+              <div className="loader">
+                <span className="bar"></span>
+                <span className="bar"></span>
+                <span className="bar"></span>
+                <p className="text-black font-bold pl-3">LOADING...</p>
+              </div>
+            ) : cycleData.length > 0 ? (
+              cycleData.map((data, index) => (
+                <div
+                  key={index}
+                  className="bg-white rounded shadow p-4 relative transform hover:scale-105 transition-transform"
+                >
+                  <div
+                    className="relative"
+                    onMouseEnter={() => setHoveredIndex(index)}
+                    onMouseLeave={() => setHoveredIndex(null)}
+                  >
+                    <img className="w-full h-40 sm:h-48 object-cover rounded" src={data.imageurl} alt="cycleimg" />
+                    <div
+                      className={`absolute top-2 right-2 w-10 h-10 flex items-center justify-center bg-black text-white rounded-full ${
+                        hoveredIndex === index ? "opacity-100" : "opacity-0"
+                      } transition-opacity duration-300 cursor-pointer`}
+                      onClick={() => props.AddToCart(data)}
+                    >
+                      <FontAwesomeIcon icon={faCartShopping} />
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-500">{data.category}</p>
+                  <p className="font-bold text-lg ">{data.name}</p>
+                  <p className="text-sm text-gray-600">rating: {data.rating}</p>
+                  <p className="text-lg font-bold text-red-500">${data.price}</p>
+                </div>
+              ))
+            ) : (
+              <div>Search not found</div>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
