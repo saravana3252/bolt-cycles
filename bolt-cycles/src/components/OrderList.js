@@ -2,36 +2,40 @@ import { useState, useEffect } from "react";
 
 function OrderList() {
   const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("https://bolt-cycles.onrender.com/checkout")
       .then((response) => response.json())
       .then((data) => {
         setOrders(data);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
+        setLoading(false);
       });
   }, []); // Added empty dependency array to prevent infinite loop
 
-
-function handlePaymentStatusChange(e){
-    fetch(`https://bolt-cycles.onrender.com/checkout/${e.target.value}`,{})
+  function handlePaymentStatusChange(e) {
+    fetch(`https://bolt-cycles.onrender.com/checkout/${e.target.value}`, {})
       .then((response) => response.json())
       .then((data) => {
-        console.log("done")
+        console.log("done");
       })
       .catch((err) => {
         console.log(err);
       });
-}
+  }
 
   return (
     <div className="max-w-7xl mx-auto p-6 bg-gray-100">
       <h1 className="text-3xl font-semibold text-center text-gray-800 mb-8">
         Order List
       </h1>
-      {orders.length === 0 ? (
+      {loading ? (
+        <p className="text-center text-lg text-gray-600">Loading...</p>
+      ) : orders.length === 0 ? (
         <p className="text-center text-lg text-gray-600">No orders found.</p>
       ) : (
         <div className="space-y-6">
@@ -57,9 +61,9 @@ function handlePaymentStatusChange(e){
 
               <div className="flex-1">
                 <h3 className="text-xl font-medium text-gray-700">Payment Status</h3>
-                <select>
-                    <option value={order.paymentStatus} onChange={handlePaymentStatusChange}>{order.paymentStatus}</option>
-                    <option value="unpaid">paid</option>
+                <select onChange={handlePaymentStatusChange} value={order.paymentStatus}>
+                  <option value="unpaid">Unpaid</option>
+                  <option value="paid">Paid</option>
                 </select>
               </div>
 

@@ -16,6 +16,7 @@ import AboutUs from "./components/AboutUs";
 import PaymentSuccess from "./components/PaymentSuccess";
 import PaymentCancel from "./components/PaymentCancel";
 import Admin from "./components/Admin";
+import PrivateAdmin from "./components/PrivateAdmin";
 
 function App() {
   let [cart, setCart] = useState(() => {
@@ -26,6 +27,10 @@ function App() {
   let [loggedUser, setLoggedUser] = useState(
     JSON.parse(localStorage.getItem("boltCycles"))
   );
+
+useEffect(() => { 
+  console.log(loggedUser)
+},[loggedUser])
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
@@ -130,11 +135,11 @@ function App() {
           />
            <Route
             path="/cancel"
-            element={<Private Component={PaymentCancel}/>}
+            element={<PrivateAdmin Component={PaymentCancel}/>}
           />
            <Route
             path="/admin/*"
-            element={<Private Component={Admin}/>}
+            element={<PrivateAdmin Component={Admin}/>}
           />
         </Routes>
         

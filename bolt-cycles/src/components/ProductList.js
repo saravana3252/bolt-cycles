@@ -2,21 +2,28 @@ import { useState, useEffect } from "react";
 
 function ProductList() {
   let [products, setProducts] = useState([]);
+  let [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("https://bolt-cycles.onrender.com/cycle")
       .then((response) => response.json())
       .then((data) => {
         setProducts(data);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
+        setLoading(false);
       });
   }, []); 
 
   return (
     <div className="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      {products.map((product) => {
+      {
+        loading ? (
+          <p>Loading...</p>
+        ) :
+      products.map((product) => {
         return (
           <div
             key={product.id}
