@@ -319,9 +319,18 @@ app.get("/Accessories/:name",(req,res)=>{
   })
 })
 
-app.get("/cycles/:value",(req,res)=>{
+app.get("/cycles/accessories/:value",(req,res)=>{
   let value=req.params.value;
-  cyclesmodel.find({price:{$lte:value}}).then((data)=>{
+  cyclesmodel.find({$and:[{category:"Accessories"},{price:{$lte:value}}]}).then((data)=>{
+    res.send(data)
+  }).catch((err)=>{
+    res.send(err)
+  })
+})
+
+app.get("/cycles/bicycles/:value",(req,res)=>{
+  let value=req.params.value;
+  cyclesmodel.find({$and:[{category:"Bicycles"},{price:{$lte:value}}]}).then((data)=>{
     res.send(data)
   }).catch((err)=>{
     res.send(err)

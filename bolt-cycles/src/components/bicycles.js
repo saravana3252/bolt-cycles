@@ -8,6 +8,8 @@ function Bicycles(props) {
     const [cycleData, setCycleData] = useState([]);
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const [searchData, setSearchData] = useState("");
+    const [loading,setLoading] = useState(true);
+    const [FilterData,setFilterData] = useState(null)
 
     // function SearchBicycles(value){
     //     console.log(value);
@@ -24,34 +26,40 @@ function Bicycles(props) {
             if(searchData !== ""){
                 fetch(`https://bolt-cycles.onrender.com/bicycle/${searchData}`).then((response) => response.json()).then((data) =>{
                     setCycleData(data);
+                    setLoading(false);
                     console.log(data);
                 }).catch((err) => {
                     console.log(err);
+                    setLoading(false);
                 })
             }
+            else if(FilterData){
+              fetch(`https://bolt-cycles.onrender.com/cycles/bicycles/${FilterData}`).then((response)=>response.json()).then((data)=>{
+                  setCycleData(data)
+                  console.log(data)
+                  console.log(FilterData)
+                  setLoading(false);
+              }).catch((err)=>{
+                  console.log(err)
+                  setLoading(false);
+              })
+          }
             else{
                 fetch("https://bolt-cycles.onrender.com/cycle/Bicycles")
                 .then((response) => response.json())
                 .then((data) => {
                     setCycleData(data);
+                    setLoading(false);
                 })
                 .catch((err) => {
                     console.log(err);
+                    setLoading(false);
                 });
             }
             
-    }, [searchData]);
+    }, [searchData,FilterData]);
 
-    useEffect(() => {
-        fetch("https://bolt-cycles.onrender.com/cycle/Bicycles")
-            .then((response) => response.json())
-            .then((data) => {
-                setCycleData(data);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }, []);
+
 
     return (
         <div>
@@ -192,13 +200,37 @@ function Bicycles(props) {
                         <h1 className="text-lg font-bold mb-3">Filter by Price</h1>
                         <div className="space-y-2">
                             <label className="flex items-center">
-                                <input type="checkbox" className="mr-2" /> Less than $700
+                                <input type="checkbox" className="mr-2" value="250" onChange={(e)=>{
+                                     if(e.target.checked){
+                                     setFilterData(e.target.value)
+                                     }
+                                     else{
+                                        setFilterData(null)
+                                     }
+                                     
+                                     }}/> Less than $300
                             </label>
                             <label className="flex items-center">
-                                <input type="checkbox" className="mr-2" /> Less than $1700
+                                <input type="checkbox" className="mr-2" value="400" onChange={(e)=>{
+                                     if(e.target.checked){
+                                     setFilterData(e.target.value)
+                                     }
+                                     else{
+                                        setFilterData(null)
+                                     }
+                                     
+                                     }}/> Less than $400
                             </label>
                             <label className="flex items-center">
-                                <input type="checkbox" className="mr-2" /> Less than $2700
+                                <input type="checkbox" className="mr-2" value="500" onChange={(e)=>{
+                                     if(e.target.checked){
+                                     setFilterData(e.target.value)
+                                     }
+                                     else{
+                                        setFilterData(null)
+                                     }
+                                     
+                                     }}/> Less than $500
                             </label>
                         </div>
                     </div>
@@ -227,7 +259,14 @@ function Bicycles(props) {
                 <div className="w-full md:w-3/4 bg-gray-100 p-6">
                     <h1 className="font-bold italic text-4xl text-red-500 mb-8">BICYCLES</h1>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        {cycleData.length > 0 ? (
+                        {loading ? (
+                          <div className="loader">
+                          <span className="bar"></span>
+                          <span className="bar"></span>
+                          <span className="bar"></span>
+                          <p className="text-black font-bold pl-3">LOADING...</p>
+                      </div>
+                        ) : cycleData.length > 0 ?(
                         cycleData.map((data, index) => (
                             <div
                                 key={index}
@@ -260,7 +299,7 @@ function Bicycles(props) {
                                 </div>
                             </div>
                         ))
-                        ):(<div>not found</div>)
+                        ):(<div>Search not found</div>)
                     }
                     </div>
                 </div>

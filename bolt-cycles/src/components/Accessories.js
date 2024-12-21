@@ -8,6 +8,7 @@ function Accessories(props) {
     const [accessoriesData, setAccessoriesData] = useState([]);
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const [searchData, setSearchData] = useState("");
+    const [loading,setLoading] = useState(true);
     const [FilterData,setFilterData] = useState(null)
 
 
@@ -17,18 +18,22 @@ function Accessories(props) {
                 .then((response) => response.json())
                 .then((data) => {
                     setAccessoriesData(data);
+                    setLoading(false);
                 })
                 .catch((err) => {
                     console.log(err);
+                    setLoading(false);
                 });
         } 
         else if(FilterData){
-            fetch(`https://bolt-cycles.onrender.com/cycles/${FilterData}`).then((response)=>response.json()).then((data)=>{
+            fetch(`https://bolt-cycles.onrender.com/cycles/Accessories/${FilterData}`).then((response)=>response.json()).then((data)=>{
                 setAccessoriesData(data)
                 console.log(data)
                 console.log(FilterData)
+                setLoading(false);
             }).catch((err)=>{
                 console.log(err)
+                setLoading(false);
             })
         }
         
@@ -37,9 +42,11 @@ function Accessories(props) {
                 .then((response) => response.json())
                 .then((data) => {
                     setAccessoriesData(data);
+                    setLoading(false);
                 })
                 .catch((err) => {
                     console.log(err);
+                    setLoading(false);
                 });
         }
     }, [searchData,FilterData]);
@@ -240,7 +247,17 @@ function Accessories(props) {
                 <div className="w-full md:w-3/4 bg-gray-100 p-6">
                     <h1 className="font-bold italic text-4xl text-red-500 mb-8">ACCESSORIES</h1>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        {accessoriesData.length > 0 ? (
+                        {
+                        
+                        loading ? (
+                          <div className="loader ">
+                          <span className="bar"></span>
+                          <span className="bar"></span>
+                          <span className="bar"></span>
+                          <p className="text-black font-bold pl-3">LOADING...</p>
+                      </div>
+                        )
+                        :accessoriesData.length > 0 ? (
                             accessoriesData.map((data, index) => (
                                 <div
                                     key={index}
@@ -274,7 +291,7 @@ function Accessories(props) {
                                 </div>
                             ))
                         ) : (
-                            <div>Not found</div>
+                            <div>Search Not found</div>
                         )}
                     </div>
                 </div>
