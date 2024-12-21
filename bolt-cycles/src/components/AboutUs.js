@@ -7,7 +7,7 @@ import Logo from "../images/logo.png";
 function AboutUs(props) {
   return (
     <>
-    <div className="bg-blue-900 w-full h-16 p-2 flex justify-between items-center px-8  lg:h-16">
+    <div className="bg-red-500 w-full h-16 p-2 flex justify-between items-center px-8  lg:h-16">
   {/* Logo Section */}
   <div className="w-[35%] h-12 flex justify-start ">
     <img src={Logo} className="h-full" alt="logo" />
@@ -60,7 +60,7 @@ function AboutUs(props) {
   </div>
 </div>
 
-<div id="mobileNav" className="fixed top-0 z-50 right-0 bg-blue-700 w-1/2 h-[100%] flex flex-col items-center justify-evenly transition-all duration-500 ease-in-out lg:hidden">
+<div id="mobileNav" className="fixed top-0 z-50 -right-[280px] bg-blue-700 w-1/2 h-[100%] flex flex-col items-center justify-evenly transition-all duration-500 ease-in-out lg:hidden">
 <div className="text-2xl text-white border border-white p-2 px-4"><button onClick={()=>{
   document.getElementById("mobileNav").style.right="-280px"
 }}>X</button></div>

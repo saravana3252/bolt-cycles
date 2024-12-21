@@ -7,7 +7,7 @@ function Header(props) {
   return (
     <>
       <div className="w-full h-screen relative">
-      <div className="absolute top-0 w-full h-16 p-2 flex justify-between items-center px-8 bg-transparent lg:h-16">
+      <div className="absolute top-0 w-full h-16 p-2  flex justify-between items-center px-8 bg-transparent z-50 lg:h-16">
   {/* Logo Section */}
   <div className="w-[35%] h-12 flex justify-start">
     <img src={Logo} className="h-full" alt="logo" />
@@ -60,7 +60,7 @@ function Header(props) {
   </div>
 </div>
 
-<div id="mobileNav" className="fixed top-0 z-50 right-0 bg-blue-700 w-1/2 h-[100%] flex flex-col items-center justify-evenly transition-all duration-500 ease-in-out lg:hidden">
+<div id="mobileNav" className="fixed top-0 z-50 -right-[280px] bg-blue-700 w-1/2 h-[100%] flex flex-col items-center justify-evenly transition-all duration-500 ease-in-out lg:hidden">
 <div className="text-2xl text-white border border-white p-2 px-4"><button onClick={()=>{
   document.getElementById("mobileNav").style.right="-280px"
 }}>X</button></div>
@@ -109,8 +109,12 @@ function Header(props) {
 </div>
 </div>
 
-        <div className="w-full h-full flex items-end bg-cover bg-center bg-[url('https://websitedemos.net/cycle-shop-02/wp-content/uploads/sites/789/2021/03/bike-hero.jpg')]">
-          <div className="w-[70%] h-[90%] flex flex-col text-white italic p-5 lg:w-[40%]">
+        
+        <div className="relative w-full h-[100%] flex items-end bg-cover bg-center bg-[url('https://websitedemos.net/cycle-shop-02/wp-content/uploads/sites/789/2021/03/bike-hero.jpg')]">
+         <div className="w-full h-full absolute top-0 bg-black bg-opacity-40 z-10"></div>
+        
+        </div>
+        <div className="absolute top-24 lg:top-20 z-20 w-[80%] h-[90%] flex flex-col text-white italic p-5 lg:w-[40%] font-bold">
             <p className="font-bold text-2xl lg:text-3xl">Newly Launched</p>
             <p className="font-bold text-6xl mt-5 lg:text-8xl">Kryo X26</p>
             <p className="font-bold text-6xl mt-5 lg:text-8xl">MTB</p>
@@ -120,11 +124,10 @@ function Header(props) {
               <li>Steel Suspension Fork</li>
               <li>Steel Hardtail Frame</li>
             </ul>
-            <button className="p-3 bg-red-500 font-bold w-[40%]  mt-7 text-white">
+            <button className="p-3 bg-red-500 font-bold w-[50%] lg:w-[40%]  mt-7 text-white">
               <Link to="/bicycles">SHOP NOW</Link>
             </button>
           </div>
-        </div>
       </div>
     </>
   );
