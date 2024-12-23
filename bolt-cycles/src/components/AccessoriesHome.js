@@ -29,7 +29,7 @@ const  loggedIndata  = useContext(UserContext);
 
     return (
         <>
-            <div className="w-full p-5">
+            <div className="w-full p-5 mb-4">
                 <h1 className="text-center text-5xl font-bold">Accessories</h1>
                 <div className="flex overflow-x-auto scrollbar-hide space-x-4 mt-8">
                     {accData.map((data, index) => (
