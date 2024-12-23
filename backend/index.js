@@ -356,6 +356,15 @@ app.delete("/deleteproducts/:name",verifytoken,(req,res)=>{
   })
 })
 
+app.put("/updatepaymentstatus/:orderid/:status",(req,res)=>{
+  let status=req.params.status;
+  checkoutModel.updateOne({_id:req.params.orderid},{$set:{paymentStatus:status}}).then((data)=>{
+    res.send({message:"Payment Status Updated"})
+  }).catch((err)=>{
+    res.send({meesage:err})
+  })
+})
+
 // MongoDB Connection
 mongoose
   .connect(process.env.MONGO_URI)

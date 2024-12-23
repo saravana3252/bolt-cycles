@@ -2,9 +2,13 @@ import React from "react";
 import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 
+
 function OrderList() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isEditingIndex, setIsEditingIndex] = useState(false);
+  const [paymentStatus, setPaymentStatus] = useState("");
+
 
    const  loggedIndata  = useContext(UserContext);
 
@@ -27,16 +31,37 @@ function OrderList() {
       });
   }, [loggedIndata.loggedUser.token]);
 
-  function handlePaymentStatusChange(e) {
-    fetch(`https://bolt-cycles.onrender.com/checkout/${e.target.value}`, {})
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("done");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+  // function handlePaymentStatusChange(e) {
+  //   fetch(`https://bolt-cycles.onrender.com/checkout/${e.target.value}`, {})
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log("done");
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }
+
+function toggleEditing(index){
+  setIsEditingIndex(index)
+}
+
+function toggleEditingCancel(){
+  setIsEditingIndex(false)
+}
+
+function handleinpChange(e){
+   setPaymentStatus(e.target.value);
+}
+
+function handleUpdate(orderId){
+  fetch(`https://bolt-cycles.onrender.com/updatepaymentstatus/${orderId}/${paymentStatus}`,{
+     method:"PUT",
+     headers:{
+      "Content-Type":"application/json"
+     }
+}).then((response)=>response.json()).then((data)=>{console.log(data)}).catch((err)=>{console.log(err)})
+}
 
   return (
     <div className="max-w-7xl mx-auto p-6 bg-gray-100">
@@ -49,7 +74,7 @@ function OrderList() {
         <p className="text-center text-lg text-gray-600">No orders found.</p>
       ) : (
         <div className="space-y-6 pb-10">
-          {orders.map((order) => (
+          {orders.map((order,index) => (
             <div
               key={order._id}
               className="bg-white p-6 rounded-lg shadow-lg flex flex-col lg:flex-row items-start lg:items-center space-y-4 lg:space-y-0 lg:space-x-6"
@@ -71,10 +96,18 @@ function OrderList() {
 
               <div className="flex-1">
                 <h3 className="text-xl font-medium text-gray-700">Payment Status</h3>
-                <select onChange={handlePaymentStatusChange} value={order.paymentStatus}>
+                {
+                  isEditingIndex === index ?( 
+                    <>
+                  <input type="text" placeholder="enter paymentStatus" className="outline-black border border-gray-400" value={paymentStatus} onChange={handleinpChange}></input>
+                  
+                  </>
+                 ) :( <p>{order.paymentStatus}</p>)
+                }
+                {/* <select onChange={handlePaymentStatusChange} value={order.paymentStatus}>
                  <option value={order.paymentStatus}>{order.paymentStatus}</option>
-                  {/* <option value="paid">Paid</option> */}
-                </select>
+                  <option value="paid">Paid</option>
+                </select> */}
               </div>
 
               <div className="flex-1">
@@ -94,6 +127,13 @@ function OrderList() {
                   ))}
                 </ul>
               </div>
+              {
+                isEditingIndex === index ?( <><button className="bg-red-500 text-white p-2 rounded-md" onClick={()=>{handleUpdate(order._id)}}>UPDATE</button> <button className="bg-red-500 text-white p-2 rounded-md" onClick={()=>{
+                  toggleEditingCancel()
+                }}>CANCEL</button></>):( <button className="bg-red-500 text-white p-2 rounded-md" onClick={()=>{
+                  toggleEditing(index)
+                }}>EDIT</button>)
+              }
             </div>
           ))}
         </div>
