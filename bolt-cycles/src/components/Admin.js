@@ -22,7 +22,7 @@ function Admin() {
         <div className={`fixed lg:relative top-0 left-0 w-[80%] lg:w-[20%] h-full bg-blue-500 p-4 transition-transform duration-300 ease-in-out transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}>
           <nav className="flex flex-col gap-4">
             <Link
-              to="/admin/products"
+              to="/admin"
               className="text-white hover:bg-blue-600 p-2 rounded transition-all"
             >
               Product List
