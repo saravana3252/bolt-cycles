@@ -48,7 +48,7 @@ function OrderList() {
       ) : orders.length === 0 ? (
         <p className="text-center text-lg text-gray-600">No orders found.</p>
       ) : (
-        <div className="space-y-6">
+        <div className="space-y-6 pb-10">
           {orders.map((order) => (
             <div
               key={order._id}

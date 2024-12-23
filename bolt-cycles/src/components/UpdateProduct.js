@@ -106,7 +106,7 @@ function handleinpDelete(e){
     <div className="p-6 bg-gray-100 min-h-screen">
       <form className="max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-8" onSubmit={handleSubmit}>
         <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">Update Products</h1>
-        <div className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-1 gap-6 ">
           <div>
             <label className="block text-gray-700 font-medium mb-1">Product ID</label>
             <input
@@ -223,7 +223,7 @@ function handleinpDelete(e){
         </div>
       </form>
 
-      <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-8 mt-8">
+      <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-8 mt-8 mb-10">
         <h1 className="text-3xl font-bold mb-4 text-center text-gray-800">Delete Product</h1>
         <div className="grid grid-cols-1 gap-6">
           <div>
