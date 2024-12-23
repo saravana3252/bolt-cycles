@@ -51,7 +51,7 @@ function Admin() {
         {/* Main Content */}
         <div className="w-full lg:w-[80%] h-full bg-gray-100 p-6 overflow-auto">
           <Routes>
-            <Route path="/" element={<ProductList />} />
+            <Route path="" element={<ProductList />} />
             <Route path="orders" element={<OrderList />} />
             <Route path="update-product" element={<UpdateProduct />} />
           </Routes>
