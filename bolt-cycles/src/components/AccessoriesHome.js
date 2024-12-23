@@ -7,7 +7,7 @@ function AccessoriesHome(props) {
     const [hoveredIndex, setHoveredIndex] = useState(null);
 
     useEffect(() => {
-        fetch("http://localhost:8000/cycle/Accessories")
+        fetch("https://bolt-cycles.onrender.com/products/Accessories")
             .then((response) => response.json())
             .then((data) => {
                 setAccData(data);
