@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 function Register() {
+  let [isLoading, setIsLoading] = useState(false);
   let [user, setUser] = useState({
     name: "",
     email: "",
@@ -39,16 +40,18 @@ function Register() {
         setTimeout(() => {
           setMessage({ type: "invisible-msg" });
         }, 5000);
+        setIsLoading(false);
       })
       .catch((err) => {
         console.log(err);
+        setIsLoading(false);
       });
   }
 
   return (
     <div className="w-full h-screen bg-gradient-to-r from-blue-600 via-black to-red-600 flex justify-center items-center p-4 md:p-8 lg:p-12">
       <form className="w-full max-w-md bg-white p-8 rounded-xl shadow-lg" onSubmit={handleSubmit}>
-        <h1 className="text-2xl font-semibold text-center text-gray-800 mb-6">REGISTER</h1>
+        <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">REGISTER</h1>
         <div className="flex flex-col gap-4">
           <input
             type="text"
@@ -80,7 +83,7 @@ function Register() {
           <p className="text-center text-gray-600">
             ALREADY HAVE AN ACCOUNT?{" "}
             <Link to="/" className="text-blue-500 hover:underline">
-              LOGIN
+              {isLoading ? "LOADING..." : "LOGIN"}
             </Link>
           </p>
           <p className={`${message.type} p-2 font-medium text-lg`}>{message.text}</p>
