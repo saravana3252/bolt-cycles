@@ -101,7 +101,7 @@ app.get("/products",verifytoken, (req, res) => {
     });
 });
 
-app.get("/checkout",(req,res)=>{
+app.get("/checkout",verifytoken,(req,res)=>{
   checkoutModel.find().then((data)=>  {
     res.send(data)
   }
@@ -110,7 +110,7 @@ app.get("/checkout",(req,res)=>{
   })
 })
 
-app.post("/checkout/:value",(req,res)=>{
+app.post("/checkout/:value",verifytoken,(req,res)=>{
 let value=req.params.value
   checkoutModel.find([{paymentStatus:"pending"},{$set:{paymentStatus:value}}]).then((data)=>{
     res.send(data)
@@ -122,7 +122,7 @@ let value=req.params.value
 // Checkout Route (for saving checkout data to MongoDB)
 // POST request to checkout route
 // Handle checkout
-app.post("/checkout", (req, res) => {
+app.post("/checkout",verifytoken, (req, res) => {
   // Destructure the request body to get the user ID, cart data, shipping address, and payment method
   const { userId, cartData, shippingAddress, paymentMethod } = req.body;
 
@@ -188,7 +188,7 @@ app.post("/checkout", (req, res) => {
 });
 
 // Create Stripe Checkout Session
-app.post("/create-checkout-session", (req, res) => {
+app.post("/create-checkout-session", verifytoken,(req, res) => {
   // Destructure the request body to get the cart data, shipping address, and user ID
   const { cartData, shippingAddress, userId } = req.body;
 
@@ -292,7 +292,7 @@ app.get("/cancel", (req, res) => {
 });
 
 
-app.get("/products/:category",(req,res)=>{
+app.get("/products/:category",verifytoken,(req,res)=>{
     cyclesmodel.find({category:req.params.category}).then((data)=>{
         res.send(data)
     }).catch((err)=>{
@@ -301,7 +301,7 @@ app.get("/products/:category",(req,res)=>{
 })
 
 
-app.get("/bicycle/:name",(req,res)=>{
+app.get("/bicycle/:name",verifytoken,(req,res)=>{
   let name=req.params.name;
   cyclesmodel.find({$and:[{name:{$regex:name,$options:'i'}},{category:"Bicycles"}]}).then((data)=>{
       res.send(data)
@@ -310,7 +310,7 @@ app.get("/bicycle/:name",(req,res)=>{
   })
 })
 
-app.get("/Accessories/:name",(req,res)=>{
+app.get("/Accessories/:name",verifytoken,(req,res)=>{
   let name=req.params.name;
   cyclesmodel.find({$and:[{name:{$regex:name,$options:'i'}},{category:"Accessories"}]}).then((data)=>{
       res.send(data)
@@ -319,7 +319,7 @@ app.get("/Accessories/:name",(req,res)=>{
   })
 })
 
-app.get("/products/accessories/:value",(req,res)=>{
+app.get("/products/accessories/:value",verifytoken,(req,res)=>{
   let value=req.params.value;
   cyclesmodel.find({$and:[{category:"Accessories"},{price:{$lte:value}}]}).then((data)=>{
     res.send(data)
@@ -328,7 +328,7 @@ app.get("/products/accessories/:value",(req,res)=>{
   })
 })
 
-app.get("/products/bicycles/:value",(req,res)=>{
+app.get("/products/bicycles/:value",verifytoken,(req,res)=>{
   let value=req.params.value;
   cyclesmodel.find({$and:[{category:"Bicycles"},{price:{$lte:value}}]}).then((data)=>{
     res.send(data)
@@ -337,7 +337,7 @@ app.get("/products/bicycles/:value",(req,res)=>{
   })
 })
 
-app.post("/updateproducts",(req,res)=>{
+app.post("/updateproducts",verifytoken,(req,res)=>{
   let newproducts=req.body;
   cyclesmodel.create(newproducts).then((data)=>{
       res.send(data)
@@ -347,7 +347,7 @@ app.post("/updateproducts",(req,res)=>{
 })
 
 
-app.delete("/deleteproducts/:name",(req,res)=>{
+app.delete("/deleteproducts/:name",verifytoken,(req,res)=>{
   let name = req.params.name;
   cyclesmodel.deleteOne({name:name}).then((data)=>{
       res.send({message:"Product Deleted"})

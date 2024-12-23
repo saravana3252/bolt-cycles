@@ -1,11 +1,21 @@
-import { useState, useEffect } from "react";
+import React from "react";
+import { useState, useEffect, useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
 
 function OrderList() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
+   const  loggedIndata  = useContext(UserContext);
+
   useEffect(() => {
-    fetch("https://bolt-cycles.onrender.com/checkout")
+    fetch("https://bolt-cycles.onrender.com/checkout",{
+      method:"GET",
+      headers:{
+        "Content-Type":"application/json",
+        "authorization":`Bearer ${loggedIndata.loggedUser.token}`
+      }
+    })
       .then((response) => response.json())
       .then((data) => {
         setOrders(data);
@@ -15,7 +25,7 @@ function OrderList() {
         console.log(err);
         setLoading(false);
       });
-  }, []); // Added empty dependency array to prevent infinite loop
+  }, [loggedIndata.loggedUser.token]);
 
   function handlePaymentStatusChange(e) {
     fetch(`https://bolt-cycles.onrender.com/checkout/${e.target.value}`, {})

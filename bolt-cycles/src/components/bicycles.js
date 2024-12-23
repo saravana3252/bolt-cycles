@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Logo from "../images/logo.png";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faSearch, faFilter } from "@fortawesome/free-solid-svg-icons";
 import Footer from "./Footer";
+import React from "react";
+import { UserContext } from "../contexts/UserContext";
 
 function Bicycles(props) {
   const [cycleData, setCycleData] = useState([]);
@@ -13,9 +15,17 @@ function Bicycles(props) {
   const [FilterData, setFilterData] = useState(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
+const  loggedIndata  = useContext(UserContext);
+  
   useEffect(() => {
     if (searchData !== "") {
-      fetch(`https://bolt-cycles.onrender.com/bicycle/${searchData}`)
+      fetch(`https://bolt-cycles.onrender.com/bicycle/${searchData}`,{
+        method:"GET",
+        headers:{
+          "Content-Type":"application/json",
+          "authorization":`Bearer ${loggedIndata.loggedUser.token}`
+        }
+      })
         .then((response) => response.json())
         .then((data) => {
           setCycleData(data);
@@ -27,7 +37,13 @@ function Bicycles(props) {
           setLoading(false);
         });
     } else if (FilterData) {
-      fetch(`https://bolt-cycles.onrender.com/products/bicycles/${FilterData}`)
+      fetch(`https://bolt-cycles.onrender.com/products/bicycles/${FilterData}`,{
+        method:"GET",
+        headers:{
+          "Content-Type":"application/json",
+          "authorization":`Bearer ${loggedIndata.loggedUser.token}`
+        }
+      })
         .then((response) => response.json())
         .then((data) => {
           setCycleData(data);
@@ -40,7 +56,13 @@ function Bicycles(props) {
           setLoading(false);
         });
     } else {
-      fetch("https://bolt-cycles.onrender.com/products/Bicycles")
+      fetch("https://bolt-cycles.onrender.com/products/Bicycles",{
+        method:"GET",
+        headers:{
+          "Content-Type":"application/json",
+          "authorization":`Bearer ${loggedIndata.loggedUser.token}`
+        }
+      })
         .then((response) => response.json())
         .then((data) => {
           setCycleData(data);
@@ -51,7 +73,7 @@ function Bicycles(props) {
           setLoading(false);
         });
     }
-  }, [searchData, FilterData]);
+  }, [searchData, FilterData,loggedIndata.loggedUser.token]);
 
   return (
     <div>

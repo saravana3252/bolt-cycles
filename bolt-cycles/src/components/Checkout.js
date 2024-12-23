@@ -64,6 +64,7 @@ price: item.price,  // Send product price
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+           "Authorization":`Bearer ${loggedIndata.loggedUser.token}`
         },
         body: JSON.stringify(checkoutData),
       });
@@ -87,6 +88,7 @@ price: item.price,  // Send product price
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+           "Authorization":`Bearer ${loggedIndata.loggedUser.token}`
         },
         body: JSON.stringify(checkoutData),
       });

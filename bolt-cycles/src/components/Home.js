@@ -15,19 +15,21 @@ function Home(props) {
 let [data,setData] = useState([]);
 
  const  loggedIndata  = useContext(UserContext);
- 
+
   useEffect(()=>{
      fetch("https://bolt-cycles.onrender.com/products",{
       method:"GET",
       headers:{
+        "Content-Type":"application/json",
         "Authorization":`Bearer ${loggedIndata.loggedUser.token}`
       }
      }).then((response)=>response.json()).then((data)=>{
       setData(data)
+      console.log(loggedIndata.loggedUser.token)
      }).catch((err)=>{
       console.log(err)
      })
-  },[])
+  },[loggedIndata.loggedUser.token])
 
 
 

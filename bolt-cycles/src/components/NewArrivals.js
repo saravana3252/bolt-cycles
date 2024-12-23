@@ -8,13 +8,13 @@ function NewArrivals(props) {
 
     return (
         <div className="w-full">
-            <h1 className="text-center italic font-bold text-5xl py-2 lg:py-10 lg:pt-0 pt-5">NEW ARRIVALS</h1>
+            <h1 className="text-center italic font-bold text-5xl py-3 lg:py-10">NEW ARRIVALS</h1>
             <div className="grid grid-cols-2 gap-2 lg:grid-cols-4">
                 {newarrival.map((data, index) => {
                     return (
                         <div
                             key={index}
-                            className="h-full w-full px-5 text-start py-5 lg:py-5"
+                            className="h-full w-full px-5 text-start py-4 lg:py-5"
                         >
                             <div
                                 className="relative"

@@ -1,11 +1,22 @@
-import { useState, useEffect } from "react";
+import React from "react";
+import { useState, useEffect, useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
 
 function ProductList() {
   let [products, setProducts] = useState([]);
   let [loading, setLoading] = useState(true);
 
+  
+ const  loggedIndata  = useContext(UserContext);
+
   useEffect(() => {
-    fetch("https://bolt-cycles.onrender.com/products")
+    fetch("https://bolt-cycles.onrender.com/products",{
+      method:"GET",
+      headers:{
+        "Content-Type":"application/json",
+        "authorization":`Bearer ${loggedIndata.loggedUser.token}`
+      }
+    })
       .then((response) => response.json())
       .then((data) => {
         setProducts(data);
@@ -15,7 +26,7 @@ function ProductList() {
         console.log(err);
         setLoading(false);
       });
-  }, []); 
+  }, [loggedIndata.loggedUser.token]); 
 
   return (
     <div className="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
