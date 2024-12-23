@@ -346,6 +346,16 @@ app.post("/updateproducts",(req,res)=>{
   })
 })
 
+
+app.delete("/deleteproducts/:name",(req,res)=>{
+  let name = req.params.name;
+  cyclesmodel.deleteOne({name:name}).then((data)=>{
+      res.send({message:"Product Deleted"})
+  }).catch((err)=>{
+      res.send(err)
+  })
+})
+
 // MongoDB Connection
 mongoose
   .connect(process.env.MONGO_URI)

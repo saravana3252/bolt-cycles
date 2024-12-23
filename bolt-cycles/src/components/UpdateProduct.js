@@ -1,21 +1,27 @@
-import {useState } from "react";
+import {useEffect, useState } from "react";
 
 function UpdateProduct() {
 
+const [inpDeleteValue,setInpDeleteValue]=useState("")
+
 const [data,setData]=useState(
   {
-    productId:0,
+    id:0,
     name:"",
     price:0,
     category:"",
     description:"",
-    image:"",
+    imageurl:"",
     stock:0,
     rating:0,
     arrival:"",
     reviews:[]
   }
 ) 
+
+useEffect(()=>{
+  console.log(data)
+},[data])
 
 function handleUpdate(e){
   setData((prevObj)=>{
@@ -32,13 +38,15 @@ function handleSubmit(e){
       "Content-Type":"application/json"
     }
   }).then((response)=>response.json()).then((data)=>{
+    console.log(data)
+    console.log("Product Updated")
     setData( {
       productId:0,
       name:"",
       price:0,
       category:"",
       description:"",
-      image:"",
+      imageurl:"",
       stock:0,
       rating:0,
       arrival:"",
@@ -49,6 +57,25 @@ function handleSubmit(e){
   })
 }
 
+function handleDelete(){
+fetch("https://bolt-cycles.onrender.com/deleteproducts",{
+  method:"DELETE",
+  body:JSON.stringify(inpDeleteValue),
+  headers:{
+    "Content-Type":"application/json"
+  }
+}).then((response)=>response.json()).then((data)=>{
+  console.log(data)
+  console.log("Product Deleted")
+  setInpDeleteValue("")
+}).catch((err)=>{
+  console.log(err)
+})
+}
+
+function handleinpDelete(e){
+  setInpDeleteValue(e.target.value)
+}
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
@@ -113,10 +140,10 @@ function handleSubmit(e){
           <div>
             <label className="block text-gray-700 font-medium mb-1">Image URL</label>
             <input
-              type="url"
+              type="text"
               placeholder="Upload image"
               className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-              name="image url"
+              name="imageurl"
               value={data.image}
               onChange={handleUpdate}
             />
@@ -180,9 +207,11 @@ function handleSubmit(e){
               type="text"
               placeholder="Enter name"
               className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-400"
+              name="inpDelete"
+              onChange={handleinpDelete}
             />
           </div>
-          <button className="w-full bg-red-500 text-white py-3 px-4 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400">
+          <button className="w-full bg-red-500 text-white py-3 px-4 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400" onClick={handleDelete}>
             DELETE
           </button>
         </div>
