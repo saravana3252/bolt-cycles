@@ -52,7 +52,7 @@ function AboutUs(props) {
     <Link to="/cart" className="relative">
       <FontAwesomeIcon icon={faCartShopping} size="lg" className="text-white" />
       {props.cartLength > 0 && (
-        <span className="absolute top-[-12.5px] right-[-12.5px] bg-red-600 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
+        <span className="absolute top-[-12.5px] right-[-12.5px] bg-black text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
           {props.cartLength}
         </span>
       )}

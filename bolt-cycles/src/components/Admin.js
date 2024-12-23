@@ -39,6 +39,12 @@ function Admin() {
             >
               Update Product
             </Link>
+            <Link
+              to="/home"
+              className="text-white hover:bg-blue-600 p-2 rounded transition-all"
+            >
+              Home
+            </Link>
           </nav>
         </div>
 

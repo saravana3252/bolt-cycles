@@ -17,12 +17,15 @@ import PaymentSuccess from "./components/PaymentSuccess";
 import PaymentCancel from "./components/PaymentCancel";
 import Admin from "./components/Admin";
 import PrivateAdmin from "./components/PrivateAdmin";
+import ProductDescription from "./components/ProductDescription";
 
 function App() {
   let [cart, setCart] = useState(() => {
     const savedCart = localStorage.getItem("cart");
     return savedCart ? JSON.parse(savedCart) : [];
   });
+
+  let [product,setproduct]=useState({})
 
   let [loggedUser, setLoggedUser] = useState(
     JSON.parse(localStorage.getItem("boltCycles"))
@@ -54,6 +57,10 @@ useEffect(() => {
       position: "bottom-left",
       autoClose: 3000,
     });
+  }
+
+  function productDes(item){
+    setproduct(item)
   }
 
   console.log(cart);
@@ -92,8 +99,14 @@ useEffect(() => {
                 Component={Bicycles}
                 AddToCart={AddToCart}
                 cartLength={cart.length}
+                productDes={productDes}
               ></Private>
             }
+          />
+            <Route
+            path="/productdescription"
+            element={<Private Component={ProductDescription} product={product}  AddToCart={AddToCart}
+            cartLength={cart.length}/>}
           />
           <Route
             path="/accessories"
@@ -102,6 +115,7 @@ useEffect(() => {
                 Component={Accessories}
                 AddToCart={AddToCart}
                 cartLength={cart.length}
+                productDes={productDes}
               ></Private>
             }
           />
@@ -135,7 +149,7 @@ useEffect(() => {
           />
            <Route
             path="/cancel"
-            element={<PrivateAdmin Component={PaymentCancel}/>}
+            element={<Private Component={PaymentCancel}/>}
           />
            <Route
             path="/admin/*"

@@ -323,7 +323,9 @@ function Accessories(props) {
                   {/* Details */}
                   <div className=" p-2">
                     <p className="text-sm text-gray-500">{data.category}</p>
-                    <h2 className="text-lg font-bold text-gray-800">{data.name}</h2>
+                    <h2 className="text-lg font-bold text-gray-800" onClick={()=>{
+                    props.productDes(data)
+                  }}><Link to="/productdescription">{data.name}</Link></h2>
                     <p className="text-sm text-gray-600">Rating: {data.rating}</p>
                     <p className="text-lg font-bold text-red-500">${data.price}</p>
                   </div>

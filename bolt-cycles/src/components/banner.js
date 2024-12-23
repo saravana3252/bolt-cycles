@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 function Banner(){
     return (
         <>
-        <div className="w-full  h-[550px] lg:h-[600px] bg-black">
+        <div className="w-full h-[600px] bg-black">
             <div className="relative bg-cover bg-center lg:bg-fixed w-full h-full bg-[url('https://websitedemos.net/cycle-shop-02/wp-content/uploads/sites/789/2021/04/moutain-bike.jpg')]">
             <div className="absolute top-0 z-10 bg-gradient-to-t from-black/70 to-black/10 w-full h-full"></div>
             <div className="absolute top-5 px-5 z-20 w-[100%] flex flex-col lg:top-28 lg:w-1/2 lg:left-10 lg:px-0">
@@ -28,7 +28,7 @@ function Banner(){
             </div>
             </div>
         </div>
-        <div className="w-full  h-[550px] lg:h-[600px] bg-black">
+        <div className="w-full h-[600px] bg-black">
             <div className="relative bg-cover bg-center  lg:bg-fixed w-full h-full bg-[url('https://websitedemos.net/cycle-shop-02/wp-content/uploads/sites/789/2021/04/city-bike.jpg')]">
             <div className="absolute top-0 z-10 bg-gradient-to-t from-black/70 to-black/10 w-full h-full"></div>
             <div className="absolute top-5 px-5 z-20 w-[100%] flex flex-col lg:top-28 lg:w-1/2 lg:left-10 lg:px-0">
@@ -51,7 +51,7 @@ function Banner(){
             </div>
             </div>
         </div>
-        <div className="w-full h-[550px] lg:h-[600px] bg-black">
+        <div className="w-full h-[600px] bg-black">
             <div className="relative bg-cover bg-center lg:bg-fixed w-full h-full bg-[url('https://websitedemos.net/cycle-shop-02/wp-content/uploads/sites/789/2021/04/speciality-bike.jpg')]">
             <div className="absolute top-0 z-10 bg-gradient-to-t from-black/70 to-black/10 w-full h-full"></div>
             <div className="absolute top-5 px-5 z-20 w-[100%] flex flex-col lg:top-28 lg:w-1/2 lg:left-10 lg:px-0">

@@ -323,7 +323,9 @@ function Bicycles(props) {
                   </div>
                   <div className=" p-2">
                   <p className="text-sm text-gray-500">{data.category}</p>
-                  <p className="font-bold text-lg ">{data.name}</p>
+                  <p className="font-bold text-lg" onClick={()=>{
+                    props.productDes(data)
+                  }}><Link to="/productdescription">{data.name}</Link></p>
                   <p className="text-sm text-gray-600">rating: {data.rating}</p>
                   <p className="text-lg font-bold text-red-500">${data.price}</p>
                   </div>
