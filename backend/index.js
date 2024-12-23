@@ -90,7 +90,7 @@ function verifytoken(req, res, next) {
 
 
 
-app.get("/products", (req, res) => {
+app.get("/products",verifytoken, (req, res) => {
   cyclesmodel
     .find()
     .then((data) => {
