@@ -36,7 +36,7 @@ const  loggedIndata  = useContext(UserContext);
           setLoading(false);
         });
     } else if (FilterData) {
-      fetch(`https://bolt-cycles.onrender.com/products/Accessories/${FilterData}`,{
+      fetch(`https://bolt-cycles.onrender.com/products/accessories/${FilterData}`,{
         method:"GET",
         headers:{
           "Content-Type":"application/json",

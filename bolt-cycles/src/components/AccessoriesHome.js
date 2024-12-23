@@ -1,13 +1,23 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import React from "react";
+import { UserContext } from "../contexts/UserContext";
 
 function AccessoriesHome(props) {
     const [accData, setAccData] = useState([]);
     const [hoveredIndex, setHoveredIndex] = useState(null);
 
+const  loggedIndata  = useContext(UserContext);
+    
     useEffect(() => {
-        fetch("https://bolt-cycles.onrender.com/products/Accessories")
+        fetch("https://bolt-cycles.onrender.com/products/Accessories",{
+            method:"GET",
+            headers:{
+              "Content-Type":"application/json",
+              "authorization":`Bearer ${loggedIndata.loggedUser.token}`
+            }
+          })
             .then((response) => response.json())
             .then((data) => {
                 setAccData(data);
@@ -15,7 +25,7 @@ function AccessoriesHome(props) {
             .catch((err) => {
                 console.log(err);
             });
-    }, []);
+    }, [loggedIndata.loggedUser.token]);    
 
     return (
         <>

@@ -35,10 +35,10 @@ function Login() {
     })
       .then((response) => {
         if (response.status === 404) {
-          setMessage({ type: "error", text: "email doesn't exist" });
+          setMessage({ type: "error", text: "Email doesn't exist" });
           setIsLoading(false);
         } else if (response.status === 403) {
-          setMessage({ type: "error", text: "password wrong" });
+          setMessage({ type: "error", text: "Incorrect password" });
           setIsLoading(false);
         } else if (response.status === 200) {
           return response.json();
@@ -69,7 +69,7 @@ function Login() {
   return (
     <div className="w-full h-screen bg-gradient-to-r from-blue-600 via-black to-red-600 flex justify-center items-center p-4 md:p-8 lg:p-12">
       <form className="w-full max-w-md bg-white p-8 rounded-xl shadow-lg" onSubmit={handleSubmit}>
-        <h1 className="text-2xl font-semibold text-center text-gray-800 mb-6">LOGIN</h1>
+        <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">Login to Your Account</h1>
         <div className="flex flex-col gap-4">
           <input
             type="email"
@@ -91,12 +91,12 @@ function Login() {
             {isLoading ? "LOADING..." : "LOGIN"}
           </button>
           <p className="text-center text-gray-600">
-            DON'T HAVE AN ACCOUNT?{" "}
+            Don't have an account?{" "}
             <Link to="/register" className="text-blue-500 hover:underline">
-              REGISTER
+              Register
             </Link>
           </p>
-          <p className={`${message.type} p-2 font-medium text-lg`}>{message.text}</p>
+          <p className={`${message.type} p-2 font-medium text-lg text-center`}>{message.text}</p>
         </div>
       </form>
     </div>
