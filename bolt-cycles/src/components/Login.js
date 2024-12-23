@@ -4,6 +4,8 @@ import { UserContext } from "../contexts/UserContext";
 
 function Login() {
 
+let [isLoading,setIsLoading]=useState(false)
+
 let navigate =useNavigate();
 
 let loggedInData = useContext(UserContext)
@@ -39,10 +41,12 @@ let loggedInData = useContext(UserContext)
         {
             if(response.status === 404){
                 setMessage({type:"error",text:"email doesn't exist"})
+                setIsLoading(false)
     
             }
             else if(response.status === 403){
                 setMessage({type:"error",text:"password wrong"})
+                setIsLoading(false)
                
             }
             else if(response.status === 200){
@@ -57,9 +61,11 @@ let loggedInData = useContext(UserContext)
             loggedInData.setLoggedUser(data)
             if(data.role === "admin"){
                 navigate("/admin")
+                setIsLoading(false)
             }
             else
              navigate("/home")
+                setIsLoading(false)
             }
             setTimeout(()=>{
                 setMessage({type:"invisible-msg"})
@@ -92,7 +98,7 @@ let loggedInData = useContext(UserContext)
                         value={user.password}
                     />
                     <button className="p-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300">
-                        LOGIN
+                    {isLoading ? "LOADING..." : "LOGIN"}
                     </button>
                     <p className="text-center text-gray-600">
                         DON'T HAVE AN ACCOUNT?{" "}

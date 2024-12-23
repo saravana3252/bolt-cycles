@@ -2,7 +2,7 @@ function Whykryo(){
     return(
         <>
         <div className="w-full mb-5 ">
-            <h1 className="text-center pt-14 font-bold text-4xl lg:text-5xl ">WHY CHOOSE KRYO?</h1>
+            <h1 className="text-center pt-7 lg:pt-14 font-bold text-4xl lg:text-5xl ">WHY CHOOSE KRYO?</h1>
             <div className="grid grid-cols-1 mt-7 px-10 lg:grid-cols-2 lg:px-20">
                 <div className="relative ">
             <div className="absolute top-0 z-30 w-[100%] lg:w-[90%] h-full bg-gradient-to-t from-black/70 to-black/20 flex flex-col justify-end text-white p-5">

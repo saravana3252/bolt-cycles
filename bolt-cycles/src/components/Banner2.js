@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 function Banner2(){
     return (
         <>
-        <div className="w-full h-[550px] relative flex justify-center items-center bg-fixed bg-cover bg-center bg-[url('https://websitedemos.net/cycle-shop-02/wp-content/uploads/sites/789/2021/03/bike-hero.jpg')]">
+        <div className="w-full h-[550px] relative flex justify-center items-center lg:bg-fixed bg-cover bg-center bg-[url('https://websitedemos.net/cycle-shop-02/wp-content/uploads/sites/789/2021/03/bike-hero.jpg')]">
         <div className="absolute top-0 w-full h-full z-10 bg-gradient-to-t from-black/80 to-black/20"></div>
         <div className="w-[70%] h-1/2 flex flex-col items-center justify-center gap-4 lg:gap-7 text-white z-20">
         <p className="font-bold text-2xl">The All New</p>

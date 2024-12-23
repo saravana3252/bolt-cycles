@@ -1,4 +1,5 @@
 import {useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
 
 function UpdateProduct() {
 
@@ -24,9 +25,16 @@ useEffect(()=>{
 },[data])
 
 function handleUpdate(e){
+  if(e.target.name === "reviews"){
+    setData((prevObj)=>{
+      return {...prevObj,reviews:e.target.value.split("\n")}
+    })
+  }
+  else{
   setData((prevObj)=>{
     return {...prevObj,[e.target.name]:e.target.value}
   })
+}
 }
 
 function handleSubmit(e){
@@ -40,6 +48,10 @@ function handleSubmit(e){
   }).then((response)=>response.json()).then((data)=>{
     console.log(data)
     console.log("Product Updated")
+    toast.success("Product Updated",{
+      position:"bottom-left",
+      autoClose:3000
+    })
     setData( {
       productId:0,
       name:"",
@@ -58,15 +70,15 @@ function handleSubmit(e){
 }
 
 function handleDelete(){
-fetch("https://bolt-cycles.onrender.com/deleteproducts",{
+fetch(`https://bolt-cycles.onrender.com/deleteproducts/${inpDeleteValue}`,{
   method:"DELETE",
-  body:JSON.stringify(inpDeleteValue),
-  headers:{
-    "Content-Type":"application/json"
-  }
 }).then((response)=>response.json()).then((data)=>{
   console.log(data)
   console.log("Product Deleted")
+  toast.info("product deleted",{
+    position:"bottom-left",
+    autoClose:3000
+  })
   setInpDeleteValue("")
 }).catch((err)=>{
   console.log(err)
@@ -78,6 +90,19 @@ function handleinpDelete(e){
 }
 
   return (
+    <>
+     <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+    
     <div className="p-6 bg-gray-100 min-h-screen">
       <form className="max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-8" onSubmit={handleSubmit}>
         <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">Update Products</h1>
@@ -188,7 +213,7 @@ function handleinpDelete(e){
               className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
               rows="4"
               name="reviews"
-              value={data.reviews}
+              value={data.reviews.join('\n')}
               onChange={handleUpdate}
             ></textarea>
           </div>
@@ -217,6 +242,7 @@ function handleinpDelete(e){
         </div>
       </div>
     </div>
+    </>
   );
 }
 

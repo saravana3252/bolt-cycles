@@ -60,9 +60,9 @@ function Header(props) {
   </div>
 </div>
 
-<div id="mobileNav" className="fixed top-0 z-50 -right-[280px] bg-blue-700 w-1/2 h-[100%] flex flex-col items-center justify-evenly transition-all duration-500 ease-in-out lg:hidden">
+<div id="mobileNav" className="fixed top-0 z-50 -right-[50%] bg-blue-700 w-1/2 h-[100%] flex flex-col items-center justify-evenly transition-all duration-500 ease-in-out lg:hidden">
 <div className="text-2xl text-white border border-white p-2 px-4"><button onClick={()=>{
-  document.getElementById("mobileNav").style.right="-280px"
+  document.getElementById("mobileNav").style.right="-50%";
 }}>X</button></div>
   <div className="flex flex-col items-center space-y-8 text-white font-bold ">
     <Link to="/home" className="hover:underline hover:underline-offset-4">

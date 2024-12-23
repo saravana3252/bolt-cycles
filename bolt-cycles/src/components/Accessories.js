@@ -126,12 +126,12 @@ function Accessories(props) {
 
         <div
           id="mobileNav"
-          className="fixed top-0 z-50 -right-[280px] bg-blue-700 w-1/2 h-[100%] flex flex-col items-center justify-evenly transition-all duration-500 ease-in-out lg:hidden"
+          className="fixed top-0 z-50 -right-[50%]  md:bg-red-600 bg-blue-700 w-1/2 h-[100%] flex flex-col items-center justify-evenly transition-all duration-500 ease-in-out lg:hidden"
         >
           <div className="text-2xl text-white border border-white p-2 px-4">
             <button
               onClick={() => {
-                document.getElementById("mobileNav").style.right = "-280px";
+                document.getElementById("mobileNav").style.right = "-50%";
               }}
             >
               X
@@ -183,10 +183,10 @@ function Accessories(props) {
       </div>
 
       {/* Accessories Content */}
-      <div className="flex flex-col md:flex-row mt-10 bg-gray-100 min-h-screen">
+      <div className="flex flex-col md:flex-row  lg:mt-10 bg-gray-100 min-h-screen">
         {/* Filter Toggle Button */}
         <button
-          className="bg-gray-500 text-white p-2 rounded mb-4 md:hidden"
+          className="bg-blue-600 text-white p-2 mb-2 lg:mb-4 md:hidden"
           onClick={() => setIsFilterOpen(!isFilterOpen)}
         >
           <FontAwesomeIcon icon={faFilter} /> Filter
@@ -288,7 +288,7 @@ function Accessories(props) {
         {/* Product Grid */}
         <div className="w-full md:w-3/4 bg-gray-100 p-6">
           <h1 className="font-bold italic text-4xl text-red-500 mb-8">ACCESSORIES</h1>
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-6">
             {loading ? (
               <div className="loader">
                 <span className="bar"></span>
@@ -300,7 +300,7 @@ function Accessories(props) {
               accessoriesData.map((data, index) => (
                 <div
                   key={index}
-                  className="bg-white rounded shadow p-4 relative transform hover:scale-105 transition-transform"
+                  className="bg-white rounded shadow  relative transform hover:scale-105 transition-transform"
                   onMouseEnter={() => setHoveredIndex(index)}
                   onMouseLeave={() => setHoveredIndex(null)}
                 >
@@ -321,7 +321,7 @@ function Accessories(props) {
                     </div>
                   </div>
                   {/* Details */}
-                  <div className="mt-4">
+                  <div className=" p-2">
                     <p className="text-sm text-gray-500">{data.category}</p>
                     <h2 className="text-lg font-bold text-gray-800">{data.name}</h2>
                     <p className="text-sm text-gray-600">Rating: {data.rating}</p>
