@@ -3,6 +3,7 @@ import Logo from "../images/logo.png";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faSearch, faFilter } from "@fortawesome/free-solid-svg-icons";
+import Footer from "./Footer";
 
 function Accessories(props) {
   const [accessoriesData, setAccessoriesData] = useState([]);
@@ -25,7 +26,7 @@ function Accessories(props) {
           setLoading(false);
         });
     } else if (FilterData) {
-      fetch(`https://bolt-cycles.onrender.com/cycles/Accessories/${FilterData}`)
+      fetch(`https://bolt-cycles.onrender.com/products/Accessories/${FilterData}`)
         .then((response) => response.json())
         .then((data) => {
           setAccessoriesData(data);
@@ -38,7 +39,7 @@ function Accessories(props) {
           setLoading(false);
         });
     } else {
-      fetch("https://bolt-cycles.onrender.com/cycle/Accessories")
+      fetch("https://bolt-cycles.onrender.com/products/Accessories")
         .then((response) => response.json())
         .then((data) => {
           setAccessoriesData(data);
@@ -337,6 +338,7 @@ function Accessories(props) {
           </div>
         </div>
       </div>
+      <Footer></Footer>
     </div>
   );
 }

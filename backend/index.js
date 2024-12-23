@@ -89,8 +89,8 @@ function verifytoken(req, res, next) {
 
 
 
-// Get Cycles
-app.get("/cycle", (req, res) => {
+
+app.get("/products", (req, res) => {
   cyclesmodel
     .find()
     .then((data) => {
@@ -292,7 +292,7 @@ app.get("/cancel", (req, res) => {
 });
 
 
-app.get("/cycle/:category",(req,res)=>{
+app.get("/products/:category",(req,res)=>{
     cyclesmodel.find({category:req.params.category}).then((data)=>{
         res.send(data)
     }).catch((err)=>{
@@ -319,7 +319,7 @@ app.get("/Accessories/:name",(req,res)=>{
   })
 })
 
-app.get("/cycles/accessories/:value",(req,res)=>{
+app.get("/products/accessories/:value",(req,res)=>{
   let value=req.params.value;
   cyclesmodel.find({$and:[{category:"Accessories"},{price:{$lte:value}}]}).then((data)=>{
     res.send(data)
@@ -328,7 +328,7 @@ app.get("/cycles/accessories/:value",(req,res)=>{
   })
 })
 
-app.get("/cycles/bicycles/:value",(req,res)=>{
+app.get("/products/bicycles/:value",(req,res)=>{
   let value=req.params.value;
   cyclesmodel.find({$and:[{category:"Bicycles"},{price:{$lte:value}}]}).then((data)=>{
     res.send(data)

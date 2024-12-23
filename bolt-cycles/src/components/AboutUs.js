@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import Logo from "../images/logo.png";
+import Footer from './Footer';
 
 function AboutUs(props) {
   return (
@@ -200,6 +201,7 @@ function AboutUs(props) {
         </div>
       </div>
     </section>
+    <Footer></Footer>
     </>
   );
 }

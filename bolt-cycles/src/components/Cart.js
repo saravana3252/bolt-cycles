@@ -3,6 +3,7 @@ import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Logo from "../images/logo.png";
 import { useEffect } from "react";
+import Footer from "./Footer";
 
 function Cart(props) {
     // Calculate Total Price
@@ -173,7 +174,7 @@ function Cart(props) {
         </div>
     )}
 </div>
-
+<Footer></Footer>
         </>
     );
 }
