@@ -1,7 +1,58 @@
+import {useState } from "react";
+
 function UpdateProduct() {
+
+const [data,setData]=useState(
+  {
+    productId:0,
+    name:"",
+    price:0,
+    category:"",
+    description:"",
+    image:"",
+    stock:0,
+    rating:0,
+    arrival:"",
+    reviews:[]
+  }
+) 
+
+function handleUpdate(e){
+  setData((prevObj)=>{
+    return {...prevObj,[e.target.name]:e.target.value}
+  })
+}
+
+function handleSubmit(e){
+  e.preventDefault();
+  fetch("https://bolt-cycles.onrender.com/updateproducts",{
+    method:"POST",
+    body:JSON.stringify(data),
+    headers:{
+      "Content-Type":"application/json"
+    }
+  }).then((response)=>response.json()).then((data)=>{
+    setData( {
+      productId:0,
+      name:"",
+      price:0,
+      category:"",
+      description:"",
+      image:"",
+      stock:0,
+      rating:0,
+      arrival:"",
+      reviews:[]
+    })
+  }).catch((err)=>{
+    console.log(err)
+  })
+}
+
+
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-8">
+      <form className="max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-8" onSubmit={handleSubmit}>
         <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">Update Products</h1>
         <div className="grid grid-cols-1 gap-6">
           <div>
@@ -10,6 +61,9 @@ function UpdateProduct() {
               type="number"
               placeholder="Enter ID"
               className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              name="productId"
+              value={data.productId}
+              onChange={handleUpdate}
             />
           </div>
           <div>
@@ -18,6 +72,9 @@ function UpdateProduct() {
               type="text"
               placeholder="Enter name"
               className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              name="name"
+              value={data.name}
+              onChange={handleUpdate}
             />
           </div>
           <div>
@@ -26,6 +83,9 @@ function UpdateProduct() {
               type="number"
               placeholder="Enter price"
               className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              name="price"
+              value={data.price}
+              onChange={handleUpdate}
             />
           </div>
           <div>
@@ -34,7 +94,10 @@ function UpdateProduct() {
               type="text"
               placeholder="Enter category"
               className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
+              name="category"
+              value={data.category}
+              onChange={handleUpdate}
+           />
           </div>
           <div>
             <label className="block text-gray-700 font-medium mb-1">Description</label>
@@ -42,6 +105,9 @@ function UpdateProduct() {
               placeholder="Enter description"
               className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
               rows="4"
+              name="description"
+              value={data.description}
+              onChange={handleUpdate}
             ></textarea>
           </div>
           <div>
@@ -50,6 +116,9 @@ function UpdateProduct() {
               type="url"
               placeholder="Upload image"
               className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              name="image url"
+              value={data.image}
+              onChange={handleUpdate}
             />
           </div>
           <div>
@@ -58,7 +127,10 @@ function UpdateProduct() {
               type="number"
               placeholder="Enter stock"
               className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
+              name="stock"
+              value={data.stock}
+              onChange={handleUpdate}
+           />
           </div>
           <div>
             <label className="block text-gray-700 font-medium mb-1">Rating</label>
@@ -66,6 +138,9 @@ function UpdateProduct() {
               type="number"
               placeholder="Enter rating"
               className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              name="rating"
+              value={data.rating}
+              onChange={handleUpdate}
             />
           </div>
           <div>
@@ -74,6 +149,9 @@ function UpdateProduct() {
               type="text"
               placeholder="Enter arrival"
               className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              name="arrival"
+              value={data.arrival}
+              onChange={handleUpdate}
             />
           </div>
           <div>
@@ -82,13 +160,16 @@ function UpdateProduct() {
               placeholder="Enter reviews"
               className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
               rows="4"
+              name="reviews"
+              value={data.reviews}
+              onChange={handleUpdate}
             ></textarea>
           </div>
           <button className="w-full bg-blue-500 text-white py-3 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
             UPDATE
           </button>
         </div>
-      </div>
+      </form>
 
       <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-8 mt-8">
         <h1 className="text-3xl font-bold mb-4 text-center text-gray-800">Delete Product</h1>
@@ -109,5 +190,6 @@ function UpdateProduct() {
     </div>
   );
 }
+
 
 export default UpdateProduct;

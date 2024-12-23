@@ -337,6 +337,15 @@ app.get("/cycles/bicycles/:value",(req,res)=>{
   })
 })
 
+app.post("/updateproducts",(req,res)=>{
+  let newproducts=req.body;
+  cyclesmodel.create(newproducts).then((data)=>{
+      res.send(data)
+  }).catch((err)=>{
+      res.send(err)
+  })
+})
+
 // MongoDB Connection
 mongoose
   .connect(process.env.MONGO_URI)
