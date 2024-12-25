@@ -49,9 +49,9 @@ function Register() {
   }
 
   return (
-    <div className="w-full h-screen bg-gradient-to-r from-blue-600 via-black to-red-600 flex justify-center items-center p-4 md:p-8 lg:p-12">
-      <form className="w-full max-w-md bg-white p-8 rounded-xl shadow-lg" onSubmit={handleSubmit}>
-        <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">REGISTER</h1>
+    <div className="w-full h-screen bg-black  flex justify-center items-center p-4 md:p-8 lg:p-12">
+      <form className="w-full max-w-md bg-black border border-blue-600 p-8 rounded-xl shadow-lg" onSubmit={handleSubmit}>
+        <h1 className="text-2xl font-bold text-center text-white mb-6">REGISTER</h1>
         <div className="flex flex-col gap-4">
           <input
             type="text"
@@ -80,9 +80,9 @@ function Register() {
           <button className="p-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300">
             REGISTER
           </button>
-          <p className="text-center text-gray-600">
+          <p className="text-center text-white">
             ALREADY HAVE AN ACCOUNT?{" "}
-            <Link to="/" className="text-blue-500 hover:underline">
+            <Link to="/" className="text-blue-400 hover:underline">
               {isLoading ? "LOADING..." : "LOGIN"}
             </Link>
           </p>

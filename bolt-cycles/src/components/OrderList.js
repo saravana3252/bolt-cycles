@@ -29,16 +29,15 @@ function OrderList() {
       });
   }, [loggedIndata.loggedUser.token]);
 
+  
   function toggleEditing(index) {
     setIsEditingIndex(index);
     setPaymentStatus(orders[index].paymentStatus);
   }
 
-
   function toggleEditingCancel() {
     setIsEditingIndex(false);
     setPaymentStatus("");
-    
   }
 
   function handleInputChange(e) {
@@ -62,7 +61,6 @@ function OrderList() {
           autoClose: 3000,
         });
         setIsEditingIndex(false);
-        // Optionally, refresh the order list here
       })
       .catch((err) => {
         console.log(err);
@@ -106,7 +104,7 @@ function OrderList() {
                     <p className="text-gray-600">{order.shippingAddress.name}</p>
                     <p className="text-gray-600">{order.shippingAddress.address}</p>
                     <p className="text-gray-600">
-                      {order.shippingAddress.city}, {order.shippingAddress.zip},{" "}
+                      {order.shippingAddress.city}, {order.shippingAddress.zip}, {" "}
                       {order.shippingAddress.country}
                     </p>
                   </div>
@@ -144,10 +142,10 @@ function OrderList() {
                       {order.cartData.map((item) => (
                         <li
                           key={item._id}
-                          className="text-gray-600 flex justify-between items-center"
+                          className="text-gray-600 flex flex-col sm:flex-row sm:justify-between items-start sm:items-center"
                         >
                           <span>
-                            <strong>product Id:</strong> {item._id}
+                            <strong>Product Id:</strong> {item._id}
                           </span>
                           <span>
                             <strong>Price:</strong> ${item.price}
@@ -168,17 +166,17 @@ function OrderList() {
                       ${order.totalAmount}
                     </p>
                   </div>
-                  <div className="flex space-x-4">
+                  <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-4">
                     {isEditingIndex === index ? (
                       <>
                         <button
-                          className="bg-green-500 text-white p-2 rounded-md w-full"
+                          className="bg-green-500 text-white p-2 rounded-md w-full sm:w-auto"
                           onClick={() => handleUpdate(order._id)}
                         >
                           Update
                         </button>
                         <button
-                          className="bg-gray-400 text-white p-2 rounded-md w-full"
+                          className="bg-gray-400 text-white p-2 rounded-md w-full sm:w-auto"
                           onClick={toggleEditingCancel}
                         >
                           Cancel
@@ -186,7 +184,7 @@ function OrderList() {
                       </>
                     ) : (
                       <button
-                        className="bg-blue-500 text-white p-2 rounded-md w-full"
+                        className="bg-blue-500 text-white p-2 rounded-md w-full sm:w-auto"
                         onClick={() => toggleEditing(index)}
                       >
                         Edit

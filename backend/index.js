@@ -4,15 +4,15 @@ require('dotenv').config();
 const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY); // Your Stripe secret key
-
+const nodemailer = require("nodemailer");
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY); 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 const cyclesmodel = require("./models/cyclemodel");
 const usermodel = require("./models/usersmodel");
-const checkoutModel = require("./models/checkout"); // Assuming you have a checkout model
+const checkoutModel = require("./models/checkout");
 
 // User Registration
 app.post("/register", (req, res) => {
@@ -364,6 +364,36 @@ app.put("/updatepaymentstatus/:orderid/:status",(req,res)=>{
     res.send({meesage:err})
   })
 })
+
+
+
+app.post("/sendmail",(req,res)=>{
+  let userdetails=req.body;
+  const transporter= nodemailer.createTransport({
+    service:"gmail",
+    auth:{
+      user:"sara18ec118@gmail.com",
+      pass:"skwk leez pbzz wlwf"
+    }
+  })
+  const mailOptions ={
+  from:userdetails.email,
+  to:"sara18ec118@gmail.com",
+  subject:userdetails.subject,
+  text:userdetails.message
+}
+
+transporter.sendMail(mailOptions,(err,data)=>{
+  if(err){
+    res.send({message:"failed to send mail",error:err})
+  }
+  else{
+    res.send({message:"Mail sent"})
+  }
+})
+
+})
+
 
 // MongoDB Connection
 mongoose
