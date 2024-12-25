@@ -379,6 +379,7 @@ app.post("/sendmail",(req,res)=>{
   const mailOptions ={
   from:userdetails.email,
   to:"sara18ec118@gmail.com",
+  replyTo:userdetails.email,
   subject:userdetails.subject,
   text:userdetails.message
 }
