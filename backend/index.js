@@ -373,7 +373,7 @@ app.post("/sendmail",(req,res)=>{
     service:"gmail",
     auth:{
       user:"sara18ec118@gmail.com",
-      pass:"skwk leez pbzz wlwf"
+      pass:process.env.GMAIL_PASS
     }
   })
   const mailOptions ={
