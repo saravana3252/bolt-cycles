@@ -150,7 +150,7 @@ const  loggedIndata  = useContext(UserContext);
 
         <div
           id="mobileNav"
-          className="fixed top-0 z-50 -right-[50%]  bg-gray-800 w-1/2 h-[100%] flex flex-col gap-5 items-center  transition-all duration-500 ease-in-out lg:hidden"
+          className="fixed top-0 z-50 -right-[50%]  bg-gray-800 w-1/2 h-screen flex flex-col gap-5 items-center  transition-all duration-500 ease-in-out lg:hidden"
         >
           <div className="text-2xl text-white border border-orange-400 mt-7 p-2 px-4">
             <button
