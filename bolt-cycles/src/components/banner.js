@@ -10,7 +10,7 @@ function Banner(){
             <div className="absolute top-0 z-10 bg-gradient-to-t from-black/70 to-black/10 w-full h-full"></div>
             <div className="absolute top-5 px-5 z-20 w-[100%] flex flex-col lg:top-28 lg:w-1/2 lg:left-10 lg:px-0">
             <p className="text-2xl font-bold text-white">Discover The Collection</p>
-            <p className="text-5xl font-bold text-white mt-3 italic lg:mt-5">Mountain Bikes</p>
+            <p className="text-5xl font-bold text-white mt-3 lg:italic lg:mt-5">Mountain Bikes</p>
             <p className="text-lg mt-3 text-white lg:mt-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus.</p>
             <div className="flex flex-col mt-3 lg:mt-5 text-white lg:flex-row">
             <div>
@@ -33,7 +33,7 @@ function Banner(){
             <div className="absolute top-0 z-10 bg-gradient-to-t from-black/70 to-black/10 w-full h-full"></div>
             <div className="absolute top-5 px-5 z-20 w-[100%] flex flex-col lg:top-28 lg:w-1/2 lg:left-10 lg:px-0">
             <p className="text-2xl font-bold text-white">Discover The Collection</p>
-            <p className="text-5xl font-bold text-white  mt-3 lg:mt-5 italic">City Bikes</p>
+            <p className="text-5xl font-bold text-white  mt-3 lg:mt-5 lg:italic">City Bikes</p>
             <p className="text-lg  mt-3 lg:mt-5 text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus.</p>
             <div className="flex flex-col mt-3 lg:mt-5 text-white lg:flex-row">
             <div>
@@ -56,7 +56,7 @@ function Banner(){
             <div className="absolute top-0 z-10 bg-gradient-to-t from-black/70 to-black/10 w-full h-full"></div>
             <div className="absolute top-5 px-5 z-20 w-[100%] flex flex-col lg:top-28 lg:w-1/2 lg:left-10 lg:px-0">
             <p className="text-2xl font-bold text-white">Discover The Collection</p>
-            <p className="text-5xl font-bold text-white  mt-3 lg:mt-5 italic">Speciality Bikes</p>
+            <p className="text-5xl font-bold text-white  mt-3 lg:mt-5 lg:italic">Speciality Bikes</p>
             <p className="text-lg  mt-3 lg:mt-5 text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus.</p>
             <div className="flex flex-col mt-3 lg:mt-5 text-white lg:flex-row">
             <div>
