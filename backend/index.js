@@ -231,6 +231,8 @@ app.get("/success", (req, res) => {
   // Retrieve the Stripe session using the sessionId
   stripe.checkout.sessions.retrieve(sessionId)
     .then((session) => {
+      console.log("Retrieved session:", session); // Log the session details
+
       // Check if payment status is 'paid'
       if (session.payment_status === "paid") {
         const userId = session.metadata.userId;
@@ -241,7 +243,7 @@ app.get("/success", (req, res) => {
         const totalAmount = session.amount_total / 100;  // Convert from cents to dollars
 
         // Save checkout details to your database
-        checkoutModel.create({
+        return checkoutModel.create({
           user: userId,
           cartData: cartData.map(item => ({
             cycle: item.cycleId, // Ensure you're using the correct cycle ID
@@ -251,64 +253,18 @@ app.get("/success", (req, res) => {
           paymentMethod: "Online",
           paymentStatus: "Paid",  // Mark the payment as 'Paid' in the database
           totalAmount: totalAmount,
-        })
-        .then(() => {
-          res.send("Payment was successful. Thank you for your purchase!");
-        })
-        .catch((error) => {
-          console.error("Error saving checkout data:", error);
-          res.status(500).send("An error occurred while processing the checkout.");
         });
       } else {
         res.send("Payment was not completed. Please try again.");
       }
     })
+    .then(() => {
+      res.send("Payment was successful. Thank you for your purchase!");
+    })
     .catch((error) => {
-      console.error("Error retrieving Stripe session:", error);
+      console.error("Error during payment processing:", error);
       res.status(500).send("An error occurred during payment processing.");
     });
-});
-
-app.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
-  const sig = req.headers['stripe-signature'];
-  const endpointSecret = 'whsec_uerRICSjnY7S1Z78KUI1yoJRKmtP9P68';  // Your Stripe webhook secret
-
-  let event;
-
-  try {
-    event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
-  } catch (err) {
-    console.error('Webhook signature verification failed.', err);
-    return res.status(400).send('Webhook Error: ' + err.message);
-  }
-
-  switch (event.type) {
-    case 'payment_intent.succeeded':
-      const paymentIntent = event.data.object;
-
-      // When the payment intent succeeds, update the payment status in the database
-      checkoutModel.create({
-        user: paymentIntent.metadata.userId,
-        cartData: JSON.parse(paymentIntent.metadata.cartData),
-        shippingAddress: JSON.parse(paymentIntent.metadata.shippingAddress),
-        paymentMethod: "Online",
-        paymentStatus: "Paid",
-        totalAmount: paymentIntent.amount_received / 100,  // Convert from cents
-      })
-      .then(() => {
-        console.log('Checkout saved successfully');
-      })
-      .catch((err) => {
-        console.error('Error saving checkout data:', err);
-      });
-      break;
-
-    // Handle other events (if needed)
-    default:
-      console.log(`Unhandled event type: ${event.type}`);
-  }
-
-  res.status(200).send('Webhook received');
 });
 
 
