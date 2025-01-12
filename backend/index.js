@@ -176,18 +176,16 @@ app.post("/checkout", verifytoken, (req, res) => {
 
 
 
-app.post("/create-checkout-session", verifytoken,(req, res) => {
-  
+app.post("/create-checkout-session", verifytoken, (req, res) => {
   const { cartData, shippingAddress, userId } = req.body;
 
-  
   let totalAmount = 0;
   
+  // Calculate total amount for payment
   cartData.forEach((item) => {
     totalAmount += item.price;
   });
 
- 
   stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     line_items: cartData.map((item) => ({
@@ -197,9 +195,9 @@ app.post("/create-checkout-session", verifytoken,(req, res) => {
           name: item.name,
           description: item.description,
         },
-        unit_amount: item.price * 100,
+        unit_amount: item.price * 100, // Convert price to cents
       },
-      quantity: 1,
+      quantity: 1, // Each product is considered as 1 quantity
     })),
     mode: "payment",
     success_url: process.env.STRIPE_SUCCESS_URL + "?session_id={CHECKOUT_SESSION_ID}",
@@ -211,10 +209,11 @@ app.post("/create-checkout-session", verifytoken,(req, res) => {
     },
   })
     .then((session) => {
+      console.log("Stripe session created:", session); // Log session details
       res.status(200).send({ sessionId: session.id });
     })
     .catch((error) => {
-      console.error("Error creating Stripe checkout session:", error);
+      console.error("Error creating Stripe checkout session:", error); // Log errors
       res.status(500).send({ message: "Failed to create checkout session", error: error.message });
     });
 });
@@ -235,19 +234,21 @@ app.get("/success", (req, res) => {
         return res.status(404).send("Session not found.");
       }
 
-      if (session.payment_status === "unpaid") {
+      console.log("Stripe session retrieved:", session); // Log session details
+
+      if (session.payment_status === "paid") {
         const userId = session.metadata.userId;
         const cartData = JSON.parse(session.metadata.cartData);
         const shippingAddress = JSON.parse(session.metadata.shippingAddress);
         
-        // Calculate total amount from session
+        // Calculate total amount from session (amount_total is in cents)
         const totalAmount = session.amount_total / 100;
 
         checkoutModel.create({
           user: userId,
           cartData: cartData.map((item) => ({
             cycle: item.cycleId, // Ensure cycleId is used
-            price: item.price,
+            price: item.price, // Ensure price is correct
           })),
           shippingAddress: shippingAddress,
           paymentMethod: "Online",
@@ -255,10 +256,11 @@ app.get("/success", (req, res) => {
           totalAmount: totalAmount,
         })
           .then(() => {
+            console.log("Checkout successful in database"); // Log success
             res.send("Payment was successful. Thank you for your purchase!");
           })
           .catch((error) => {
-            console.error(error);
+            console.error("Error during checkout creation:", error); // Log database errors
             res.status(500).send("An error occurred while processing the checkout.");
           });
       } else {
@@ -270,6 +272,7 @@ app.get("/success", (req, res) => {
       res.status(500).send("An error occurred during payment processing.");
     });
 });
+
 
 
 
