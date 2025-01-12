@@ -8,7 +8,15 @@ const nodemailer = require("nodemailer");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY); 
 const app = express();
 app.use(cors());
-app.use(express.json());
+
+app.use((req, res, next) => {
+  if (req.originalUrl === "/webhook") {
+    next();
+  } else {
+    express.json()(req, res, next);
+  }
+});
+
 
 const cyclesmodel = require("./models/cyclemodel");
 const usermodel = require("./models/usersmodel");
