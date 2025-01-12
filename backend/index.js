@@ -277,14 +277,15 @@ app.get("/success", (req, res) => {
 });
 
 
+// Use express.raw() for Stripe webhook
 app.post("/webhook", express.raw({ type: "application/json" }), (req, res) => {
-  const webhookSecret = "whsec_uerRICSjnY7S1Z78KUI1yoJRKmtP9P68"; // Directly use your webhook secret
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET; // Webhook secret stored in environment variable
   const sig = req.headers["stripe-signature"];
 
   let event;
 
   try {
-    // Validate the signature and parse the event
+    // Validate the webhook signature and parse the event
     event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
     console.log("Webhook verified:", event);
   } catch (err) {
@@ -298,12 +299,39 @@ app.post("/webhook", express.raw({ type: "application/json" }), (req, res) => {
 
     console.log("Payment successful, session details:", session);
 
-    // TODO: Save session details to your database
+    // Extract relevant details from the session
+    const userId = session.metadata.userId;
+    const cartData = JSON.parse(session.metadata.cartData);
+    const shippingAddress = JSON.parse(session.metadata.shippingAddress);
+
+    // Calculate total amount
+    const totalAmount = session.amount_total / 100;  // Convert from cents to dollars
+
+    // TODO: Save the session details to your database
+    checkoutModel.create({
+      user: userId,
+      cartData: cartData.map(item => ({
+        cycle: item.cycleId, // Make sure you use the correct cycle ID
+        price: item.price,
+      })),
+      shippingAddress: shippingAddress,
+      paymentMethod: "Online",
+      paymentStatus: "Paid",
+      totalAmount: totalAmount,
+    })
+    .then(() => {
+      console.log("Checkout data saved successfully.");
+    })
+    .catch((error) => {
+      console.error("Error saving checkout data:", error);
+      res.status(500).send("An error occurred while processing the checkout.");
+      return;
+    });
   }
 
+  // Respond with a success message
   res.status(200).send("Webhook received.");
 });
-
 
 
 
