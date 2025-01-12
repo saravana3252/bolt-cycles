@@ -228,41 +228,37 @@ app.get("/success", (req, res) => {
     return res.status(400).send("Session ID missing.");
   }
 
+  // Retrieve the Stripe session using the sessionId
   stripe.checkout.sessions.retrieve(sessionId)
     .then((session) => {
-      if (!session) {
-        return res.status(404).send("Session not found.");
-      }
-
-      console.log("Stripe session retrieved:", session); // Log session details
-
+      // Check if payment status is 'paid'
       if (session.payment_status === "paid") {
         const userId = session.metadata.userId;
         const cartData = JSON.parse(session.metadata.cartData);
         const shippingAddress = JSON.parse(session.metadata.shippingAddress);
-        
-        // Calculate total amount from session (amount_total is in cents)
-        const totalAmount = session.amount_total / 100;
 
+        // Calculate total amount from session
+        const totalAmount = session.amount_total / 100;  // Convert from cents to dollars
+
+        // Save checkout details to your database
         checkoutModel.create({
           user: userId,
-          cartData: cartData.map((item) => ({
-            cycle: item.cycleId, // Ensure cycleId is used
-            price: item.price, // Ensure price is correct
+          cartData: cartData.map(item => ({
+            cycle: item.cycleId, // Ensure you're using the correct cycle ID
+            price: item.price,
           })),
           shippingAddress: shippingAddress,
           paymentMethod: "Online",
-          paymentStatus: "Paid",
+          paymentStatus: "Paid",  // Mark the payment as 'Paid' in the database
           totalAmount: totalAmount,
         })
-          .then(() => {
-            console.log("Checkout successful in database"); // Log success
-            res.send("Payment was successful. Thank you for your purchase!");
-          })
-          .catch((error) => {
-            console.error("Error during checkout creation:", error); // Log database errors
-            res.status(500).send("An error occurred while processing the checkout.");
-          });
+        .then(() => {
+          res.send("Payment was successful. Thank you for your purchase!");
+        })
+        .catch((error) => {
+          console.error("Error saving checkout data:", error);
+          res.status(500).send("An error occurred while processing the checkout.");
+        });
       } else {
         res.send("Payment was not completed. Please try again.");
       }
@@ -271,6 +267,48 @@ app.get("/success", (req, res) => {
       console.error("Error retrieving Stripe session:", error);
       res.status(500).send("An error occurred during payment processing.");
     });
+});
+
+app.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
+  const sig = req.headers['stripe-signature'];
+  const endpointSecret = 'whsec_...';  // Your Stripe webhook secret
+
+  let event;
+
+  try {
+    event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+  } catch (err) {
+    console.error('Webhook signature verification failed.', err);
+    return res.status(400).send('Webhook Error: ' + err.message);
+  }
+
+  switch (event.type) {
+    case 'payment_intent.succeeded':
+      const paymentIntent = event.data.object;
+
+      // When the payment intent succeeds, update the payment status in the database
+      checkoutModel.create({
+        user: paymentIntent.metadata.userId,
+        cartData: JSON.parse(paymentIntent.metadata.cartData),
+        shippingAddress: JSON.parse(paymentIntent.metadata.shippingAddress),
+        paymentMethod: "Online",
+        paymentStatus: "Paid",
+        totalAmount: paymentIntent.amount_received / 100,  // Convert from cents
+      })
+      .then(() => {
+        console.log('Checkout saved successfully');
+      })
+      .catch((err) => {
+        console.error('Error saving checkout data:', err);
+      });
+      break;
+
+    // Handle other events (if needed)
+    default:
+      console.log(`Unhandled event type: ${event.type}`);
+  }
+
+  res.status(200).send('Webhook received');
 });
 
 
