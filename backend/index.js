@@ -235,7 +235,7 @@ app.get("/success", (req, res) => {
         return res.status(404).send("Session not found.");
       }
 
-      if (session.payment_status === "paid") {
+      if (session.payment_status === "unpaid") {
         const userId = session.metadata.userId;
         const cartData = JSON.parse(session.metadata.cartData);
         const shippingAddress = JSON.parse(session.metadata.shippingAddress);
