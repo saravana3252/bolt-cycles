@@ -188,54 +188,48 @@ app.post("/checkout",verifytoken, (req, res) => {
 });
 
 // Create Stripe Checkout Session
-app.post("/create-checkout-session", verifytoken,(req, res) => {
-  // Destructure the request body to get the cart data, shipping address, and user ID
+app.post("/create-checkout-session", verifytoken, async (req, res) => {
   const { cartData, shippingAddress, userId } = req.body;
 
   // Initialize the total amount to 0
   let totalAmount = 0;
-  // Map through the cart data to get the price
   cartData.forEach((item) => {
-    // Add the price to the total amount
     totalAmount += item.price;
   });
 
-  // Create a new Stripe checkout session with the payment method types, line items, mode, success URL, cancel URL, and metadata
-  stripe.checkout.sessions.create({
-    payment_method_types: ["card"],
-    line_items: cartData.map((item) => ({
-      price_data: {
-        currency: "usd",
-        product_data: {
-          name: item.name,
-          description: item.description,
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items: cartData.map((item) => ({
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: item.name,
+            description: item.description,
+          },
+          unit_amount: item.price * 100,
         },
-        unit_amount: item.price * 100,
+        quantity: 1,
+      })),
+      mode: "payment",
+      success_url: `${process.env.STRIPE_SUCCESS_URL}?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: process.env.STRIPE_CANCEL_URL,
+      metadata: {
+        userId: userId,
+        cartData: JSON.stringify(cartData),
+        shippingAddress: JSON.stringify(shippingAddress),
       },
-      quantity: 1,
-    })),
-    mode: "payment",
-    success_url: process.env.STRIPE_SUCCESS_URL + "?session_id={CHECKOUT_SESSION_ID}",
-    cancel_url: process.env.STRIPE_CANCEL_URL,
-    metadata: {
-      userId: userId,
-      cartData: JSON.stringify(cartData),
-      shippingAddress: JSON.stringify(shippingAddress),
-    },
-  })
-    .then((session) => {
-      // Send a 200 response with the session ID
-      res.status(200).send({ sessionId: session.id });
-    })
-    .catch((error) => {
-      // Log any errors and send a 500 response with an error message
-      console.error("Error creating Stripe checkout session:", error);
-      res.status(500).send({ message: "Failed to create checkout session", error: error.message });
     });
-});
 
-app.get("/success", (req, res) => {
-  // Get the session ID from the query parameters
+    console.log("Stripe session created:", session); // Log the session details
+    res.status(200).send({ sessionId: session.id });
+  } catch (error) {
+    console.error("Error creating Stripe checkout session:", error);
+    res.status(500).send({ message: "Failed to create checkout session", error: error.message });
+  }
+});
+// Handle success URL
+app.get("/success", async (req, res) => {
   const sessionId = req.query.session_id;
 
   if (!sessionId) {
@@ -243,52 +237,43 @@ app.get("/success", (req, res) => {
     return res.status(400).send("Session ID missing.");
   }
 
-  // Retrieve the session from Stripe
-  stripe.checkout.sessions.retrieve(sessionId)
-    .then((session) => {
-      if (!session) {
-        console.error("Session not found.");
-        return res.status(404).send("Session not found.");
-      }
+  try {
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    console.log("Retrieved Stripe session:", session); // Log the retrieved session
 
-      // Check if the payment status is "paid"
-      if (session.payment_status === "paid") {
-        const userId = session.metadata.userId;
-        const cartData = JSON.parse(session.metadata.cartData);
-        const shippingAddress = JSON.parse(session.metadata.shippingAddress);
+    if (!session) {
+      console.error("Session not found.");
+      return res.status(404).send("Session not found.");
+    }
 
-        // Create a new checkout model
-        const checkout = new checkoutModel({
-          user: userId,
-          cartData: cartData.map((item) => ({
-            cycle: item.cycleId,
-            price: item.price,
-          })),
-          shippingAddress,
-          paymentMethod: "Online",
-          paymentStatus: "Paid",
-          totalAmount: session.amount_total / 100,
-        });
+    if (session.payment_status === "paid") {
+      const userId = session.metadata.userId;
+      const cartData = JSON.parse(session.metadata.cartData);
+      const shippingAddress = JSON.parse(session.metadata.shippingAddress);
 
-        // Save the checkout model
-        return checkout.save()
-          .then(() => {
-            console.log("Checkout data saved successfully.");
-            res.send("Payment was successful. Thank you for your purchase!");
-          })
-          .catch((error) => {
-            console.error("Error saving checkout data:", error);
-            res.status(500).send("Failed to save checkout data.");
-          });
-      } else {
-        console.log("Payment was not completed.");
-        res.send("Payment was not completed. Please try again.");
-      }
-    })
-    .catch((error) => {
-      console.error("Error retrieving Stripe session:", error);
-      res.status(500).send("An error occurred during payment processing.");
-    });
+      const checkout = new checkoutModel({
+        user: userId,
+        cartData: cartData.map((item) => ({
+          cycle: item.cycleId,
+          price: item.price,
+        })),
+        shippingAddress,
+        paymentMethod: "Online",
+        paymentStatus: "Paid",
+        totalAmount: session.amount_total / 100,
+      });
+
+      await checkout.save();
+      console.log("Checkout data saved successfully.");
+      res.send("Payment was successful. Thank you for your purchase!");
+    } else {
+      console.log("Payment was not completed.");
+      res.send("Payment was not completed. Please try again.");
+    }
+  } catch (error) {
+    console.error("Error retrieving Stripe session:", error);
+    res.status(500).send("An error occurred during payment processing.");
+  }
 });
 
 
