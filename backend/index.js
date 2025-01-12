@@ -231,7 +231,7 @@ app.get("/success", (req, res) => {
   // Retrieve the Stripe session using the sessionId
   stripe.checkout.sessions.retrieve(sessionId)
     .then((session) => {
-      console.log("Retrieved session:", session); // Log the session details
+      console.log("Stripe session details:", session);  // Log full session details
 
       // Check if payment status is 'paid'
       if (session.payment_status === "paid") {
@@ -239,11 +239,15 @@ app.get("/success", (req, res) => {
         const cartData = JSON.parse(session.metadata.cartData);
         const shippingAddress = JSON.parse(session.metadata.shippingAddress);
 
+        console.log("UserId:", userId);
+        console.log("Cart Data:", cartData);
+        console.log("Shipping Address:", shippingAddress);
+
         // Calculate total amount from session
         const totalAmount = session.amount_total / 100;  // Convert from cents to dollars
 
         // Save checkout details to your database
-        return checkoutModel.create({
+        checkoutModel.create({
           user: userId,
           cartData: cartData.map(item => ({
             cycle: item.cycleId, // Ensure you're using the correct cycle ID
@@ -253,19 +257,26 @@ app.get("/success", (req, res) => {
           paymentMethod: "Online",
           paymentStatus: "Paid",  // Mark the payment as 'Paid' in the database
           totalAmount: totalAmount,
+        })
+        .then(() => {
+          res.send("Payment was successful. Thank you for your purchase!");
+        })
+        .catch((error) => {
+          console.error("Error saving checkout data:", error);
+          res.status(500).send("An error occurred while processing the checkout.");
         });
       } else {
+        console.log("Payment status is not paid. Status:", session.payment_status);
         res.send("Payment was not completed. Please try again.");
       }
     })
-    .then(() => {
-      res.send("Payment was successful. Thank you for your purchase!");
-    })
     .catch((error) => {
-      console.error("Error during payment processing:", error);
+      console.error("Error retrieving Stripe session:", error);
       res.status(500).send("An error occurred during payment processing.");
     });
 });
+
+
 
 
 
