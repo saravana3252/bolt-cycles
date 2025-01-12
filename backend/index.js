@@ -277,6 +277,32 @@ app.get("/success", (req, res) => {
 });
 
 
+app.post("/webhook", express.raw({ type: "application/json" }), (req, res) => {
+  const webhookSecret = "whsec_uerRICSjnY7S1Z78KUI1yoJRKmtP9P68"; // Directly use your webhook secret
+  const sig = req.headers["stripe-signature"];
+
+  let event;
+
+  try {
+    // Validate the signature and parse the event
+    event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
+    console.log("Webhook verified:", event);
+  } catch (err) {
+    console.error("Webhook signature verification failed:", err.message);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  // Handle the event
+  if (event.type === "checkout.session.completed") {
+    const session = event.data.object;
+
+    console.log("Payment successful, session details:", session);
+
+    // TODO: Save session details to your database
+  }
+
+  res.status(200).send("Webhook received.");
+});
 
 
 
