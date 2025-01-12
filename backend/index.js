@@ -271,7 +271,7 @@ app.get("/success", (req, res) => {
 
 app.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
   const sig = req.headers['stripe-signature'];
-  const endpointSecret = 'whsec_...';  // Your Stripe webhook secret
+  const endpointSecret = 'whsec_uerRICSjnY7S1Z78KUI1yoJRKmtP9P68';  // Your Stripe webhook secret
 
   let event;
 
