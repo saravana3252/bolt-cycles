@@ -234,42 +234,54 @@ app.post("/create-checkout-session", verifytoken,(req, res) => {
     });
 });
 
-// Handle success URL
 app.get("/success", (req, res) => {
   // Get the session ID from the query parameters
   const sessionId = req.query.session_id;
 
   if (!sessionId) {
+    console.error("Session ID missing.");
     return res.status(400).send("Session ID missing.");
   }
 
+  // Retrieve the session from Stripe
   stripe.checkout.sessions.retrieve(sessionId)
     .then((session) => {
       if (!session) {
+        console.error("Session not found.");
         return res.status(404).send("Session not found.");
       }
 
+      // Check if the payment status is "paid"
       if (session.payment_status === "paid") {
         const userId = session.metadata.userId;
         const cartData = JSON.parse(session.metadata.cartData);
+        const shippingAddress = JSON.parse(session.metadata.shippingAddress);
 
+        // Create a new checkout model
         const checkout = new checkoutModel({
           user: userId,
           cartData: cartData.map((item) => ({
             cycle: item.cycleId,
             price: item.price,
           })),
-          shippingAddress: JSON.parse(session.metadata.shippingAddress),
+          shippingAddress,
           paymentMethod: "Online",
           paymentStatus: "Paid",
           totalAmount: session.amount_total / 100,
         });
 
+        // Save the checkout model
         return checkout.save()
           .then(() => {
-           res.send("Payment was successful. Thank you for your purchase!")
+            console.log("Checkout data saved successfully.");
+            res.send("Payment was successful. Thank you for your purchase!");
+          })
+          .catch((error) => {
+            console.error("Error saving checkout data:", error);
+            res.status(500).send("Failed to save checkout data.");
           });
       } else {
+        console.log("Payment was not completed.");
         res.send("Payment was not completed. Please try again.");
       }
     })
@@ -278,7 +290,6 @@ app.get("/success", (req, res) => {
       res.status(500).send("An error occurred during payment processing.");
     });
 });
-
 
 
 app.get("/cancel", (req, res) => {
