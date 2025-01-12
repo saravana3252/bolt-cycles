@@ -14,7 +14,7 @@ const cyclesmodel = require("./models/cyclemodel");
 const usermodel = require("./models/usersmodel");
 const checkoutModel = require("./models/checkout");
 
-// User Registration
+
 app.post("/register", (req, res) => {
   let user = req.body;
 
@@ -39,7 +39,7 @@ app.post("/register", (req, res) => {
 
 
 
-// User Login
+
 app.post("/login", (req, res) => {
   let userCred = req.body;
   usermodel
@@ -72,7 +72,7 @@ app.post("/login", (req, res) => {
     });
 });
 
-// Token Verification Middleware
+
 function verifytoken(req, res, next) {
   if (req.headers.authorization != undefined) {
     let token = req.headers.authorization.split(" ")[1];
@@ -119,28 +119,19 @@ let value=req.params.value
   })
 })
 
-// Checkout Route (for saving checkout data to MongoDB)
-// POST request to checkout route
-// Handle checkout
-app.post("/checkout",verifytoken, (req, res) => {
-  // Destructure the request body to get the user ID, cart data, shipping address, and payment method
+app.post("/checkout", verifytoken, (req, res) => {
   const { userId, cartData, shippingAddress, paymentMethod } = req.body;
 
-  // Find the user by ID
   usermodel.findById(userId)
     .then((user) => {
-      // If the user is not found, send a 404 response
       if (!user) return res.status(404).send({ message: "User not found" });
 
-      // Initialize the total amount to 0
       let totalAmount = 0;
-      // Map through the cart data to get the cycle ID and price
+
       const cyclePromises = cartData.map((item) => {
-        // Find the cycle by ID
         return cyclesmodel
           .findById(item.cycleId)
           .then((cycle) => {
-            // If the cycle is found, add the price to the total amount
             if (cycle) {
               totalAmount += cycle.price;
             }
@@ -151,11 +142,9 @@ app.post("/checkout",verifytoken, (req, res) => {
           });
       });
 
-      // Wait for all the cycles to be found
       Promise.all(cyclePromises)
         .then(() => {
-          // Create a new checkout model with the user ID, cart data, shipping address, payment method, total amount, and payment status
-          const checkout = new checkoutModel({
+          checkoutModel.create({
             user: userId,
             cartData: cartData.map((item) => ({
               cycle: item.cycleId,
@@ -165,121 +154,127 @@ app.post("/checkout",verifytoken, (req, res) => {
             paymentMethod,
             totalAmount,
             paymentStatus: paymentMethod === "Online" ? "Paid" : "Pending",
-          });
-
-          // Save the checkout model
-          return checkout.save();
-        })
-        .then((checkout) => {
-          // Send a 201 response with a success message and the checkout data
-          res.status(201).send({ message: "Checkout successful", checkout });
+          })
+            .then((checkout) => {
+              res.status(201).send({ message: "Checkout successful", checkout });
+            })
+            .catch((error) => {
+              console.error(error);
+              res.status(500).send({ message: "Error during checkout" });
+            });
         })
         .catch((error) => {
-          // Log any errors and send a 500 response with an error message
           console.error(error);
-          res.status(500).send({ message: "Error during checkout" });
+          res.status(500).send({ message: "Error calculating total amount" });
         });
     })
     .catch((error) => {
-      // Log any errors and send a 500 response with an error message
       console.error(error);
       res.status(500).send({ message: "Error finding user" });
     });
 });
 
-// Create Stripe Checkout Session
-app.post("/create-checkout-session", verifytoken, async (req, res) => {
+
+
+app.post("/create-checkout-session", verifytoken,(req, res) => {
+  
   const { cartData, shippingAddress, userId } = req.body;
 
-  // Initialize the total amount to 0
+  
   let totalAmount = 0;
+  
   cartData.forEach((item) => {
     totalAmount += item.price;
   });
 
-  try {
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      line_items: cartData.map((item) => ({
-        price_data: {
-          currency: "usd",
-          product_data: {
-            name: item.name,
-            description: item.description,
-          },
-          unit_amount: item.price * 100,
+ 
+  stripe.checkout.sessions.create({
+    payment_method_types: ["card"],
+    line_items: cartData.map((item) => ({
+      price_data: {
+        currency: "usd",
+        product_data: {
+          name: item.name,
+          description: item.description,
         },
-        quantity: 1,
-      })),
-      mode: "payment",
-      success_url: `${process.env.STRIPE_SUCCESS_URL}?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: process.env.STRIPE_CANCEL_URL,
-      metadata: {
-        userId: userId,
-        cartData: JSON.stringify(cartData),
-        shippingAddress: JSON.stringify(shippingAddress),
+        unit_amount: item.price * 100,
       },
+      quantity: 1,
+    })),
+    mode: "payment",
+    success_url: process.env.STRIPE_SUCCESS_URL + "?session_id={CHECKOUT_SESSION_ID}",
+    cancel_url: process.env.STRIPE_CANCEL_URL,
+    metadata: {
+      userId: userId,
+      cartData: JSON.stringify(cartData),
+      shippingAddress: JSON.stringify(shippingAddress),
+    },
+  })
+    .then((session) => {
+      res.status(200).send({ sessionId: session.id });
+    })
+    .catch((error) => {
+      console.error("Error creating Stripe checkout session:", error);
+      res.status(500).send({ message: "Failed to create checkout session", error: error.message });
     });
-
-    console.log("Stripe session created:", session); // Log the session details
-    res.status(200).send({ sessionId: session.id });
-  } catch (error) {
-    console.error("Error creating Stripe checkout session:", error);
-    res.status(500).send({ message: "Failed to create checkout session", error: error.message });
-  }
 });
-// Handle success URL
-app.get("/success", async (req, res) => {
+
+
+
+
+app.get("/success", (req, res) => {
   const sessionId = req.query.session_id;
 
   if (!sessionId) {
-    console.error("Session ID missing.");
     return res.status(400).send("Session ID missing.");
   }
 
-  try {
-    const session = await stripe.checkout.sessions.retrieve(sessionId);
-    console.log("Retrieved Stripe session:", session); // Log the retrieved session
+  stripe.checkout.sessions.retrieve(sessionId)
+    .then((session) => {
+      if (!session) {
+        return res.status(404).send("Session not found.");
+      }
 
-    if (!session) {
-      console.error("Session not found.");
-      return res.status(404).send("Session not found.");
-    }
+      if (session.payment_status === "paid") {
+        const userId = session.metadata.userId;
+        const cartData = JSON.parse(session.metadata.cartData);
+        const shippingAddress = JSON.parse(session.metadata.shippingAddress);
+        
+        // Calculate total amount from session
+        const totalAmount = session.amount_total / 100;
 
-    if (session.payment_status === "paid") {
-      const userId = session.metadata.userId;
-      const cartData = JSON.parse(session.metadata.cartData);
-      const shippingAddress = JSON.parse(session.metadata.shippingAddress);
-
-      const checkout = new checkoutModel({
-        user: userId,
-        cartData: cartData.map((item) => ({
-          cycle: item.cycleId,
-          price: item.price,
-        })),
-        shippingAddress,
-        paymentMethod: "Online",
-        paymentStatus: "Paid",
-        totalAmount: session.amount_total / 100,
-      });
-
-      await checkout.save();
-      console.log("Checkout data saved successfully.");
-      res.send("Payment was successful. Thank you for your purchase!");
-    } else {
-      console.log("Payment was not completed.");
-      res.send("Payment was not completed. Please try again.");
-    }
-  } catch (error) {
-    console.error("Error retrieving Stripe session:", error);
-    res.status(500).send("An error occurred during payment processing.");
-  }
+        checkoutModel.create({
+          user: userId,
+          cartData: cartData.map((item) => ({
+            cycle: item.cycleId, // Ensure cycleId is used
+            price: item.price,
+          })),
+          shippingAddress: shippingAddress,
+          paymentMethod: "Online",
+          paymentStatus: "Paid",
+          totalAmount: totalAmount,
+        })
+          .then(() => {
+            res.send("Payment was successful. Thank you for your purchase!");
+          })
+          .catch((error) => {
+            console.error(error);
+            res.status(500).send("An error occurred while processing the checkout.");
+          });
+      } else {
+        res.send("Payment was not completed. Please try again.");
+      }
+    })
+    .catch((error) => {
+      console.error("Error retrieving Stripe session:", error);
+      res.status(500).send("An error occurred during payment processing.");
+    });
 });
 
 
+
+
 app.get("/cancel", (req, res) => {
-  // You can handle the cancellation logic here, e.g., log the cancellation,
-  // notify the user, or redirect them to a different page
   console.log("Payment was cancelled by the user.");
 
   // Return a response to the user after cancellation
@@ -369,7 +364,7 @@ app.post("/sendmail",(req,res)=>{
     service:"gmail",
     auth:{
       user:"sara18ec118@gmail.com",
-      pass:"skwk leez pbzz wlwf"
+      pass:process.env.GMAIL_PASS
     }
   })
   const mailOptions ={

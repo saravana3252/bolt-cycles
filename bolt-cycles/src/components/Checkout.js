@@ -72,16 +72,18 @@ price: item.price,  // Send product price
       const data = await response.json();
 
       if (response.ok) {
-        const { sessionId } = data;
+        const sessionId = data.sessionId;
         const stripe = await stripePromise;
-        const { error } = await stripe.redirectToCheckout({ sessionId });
-
+        const result = await stripe.redirectToCheckout({ sessionId });
+        const error = result.error;
+      
         if (error) {
           toast.error("Payment failed: " + error.message);
         }
       } else {
         toast.error("Failed to create Stripe checkout session: " + data.message);
       }
+      
     } else {
       // For COD, directly save the data in the checkout collection
       const response = await fetch("https://bolt-cycles.onrender.com/checkout", {
