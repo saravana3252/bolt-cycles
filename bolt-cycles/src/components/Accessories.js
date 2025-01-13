@@ -77,7 +77,7 @@ const  loggedIndata  = useContext(UserContext);
   return (
     <div>
       {/* Header */}
-      <div className="w-full h-16 p-2 flex justify-between items-center px-8 bg-red-500 lg:h-16">
+      <div className="w-full h-16 p-2 flex justify-between items-center px-8 bg-orange-600 lg:h-16">
         {/* Logo Section */}
         <div className="w-[35%] h-12 flex justify-start">
           <img src={Logo} className="h-full" alt="logo" />
@@ -149,9 +149,9 @@ const  loggedIndata  = useContext(UserContext);
 
         <div
           id="mobileNav"
-          className="fixed top-0 z-50 -right-[50%]  md:bg-red-600 bg-blue-700 w-1/2 h-[100%] flex flex-col items-center justify-evenly transition-all duration-500 ease-in-out lg:hidden"
+          className="fixed top-0 z-50 -right-[50%]  bg-gray-800 w-1/2 h-[100%] flex flex-col items-center gap-5 transition-all duration-500 ease-in-out lg:hidden"
         >
-          <div className="text-2xl text-white border border-white p-2 px-4">
+          <div className="text-2xl text-white border border-orange-500 p-2 px-4 mt-7">
             <button
               onClick={() => {
                 document.getElementById("mobileNav").style.right = "-50%";
@@ -160,7 +160,7 @@ const  loggedIndata  = useContext(UserContext);
               X
             </button>
           </div>
-          <div className="flex flex-col items-center space-y-8 text-white font-bold ">
+          <div className="flex flex-col items-center space-y-8 text-orange-500 font-bold ">
             <Link to="/home" className="hover:underline hover:underline-offset-4">
               HOME
             </Link>
@@ -196,7 +196,7 @@ const  loggedIndata  = useContext(UserContext);
             <Link to="/cart" className="relative">
               <FontAwesomeIcon icon={faCartShopping} size="lg" className="text-white" />
               {props.cartLength > 0 && (
-                <span className="absolute top-[-12.5px] right-[-12.5px] bg-black text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
+                <span className="absolute top-[-12.5px] right-[-12.5px] bg-orange-600 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
                   {props.cartLength}
                 </span>
               )}
@@ -209,7 +209,7 @@ const  loggedIndata  = useContext(UserContext);
       <div className="flex flex-col md:flex-row  lg:mt-10 bg-gray-100 min-h-screen">
         {/* Filter Toggle Button */}
         <button
-          className="bg-blue-600 text-white p-2 mb-2 lg:mb-4 md:hidden"
+          className="bg-gray-800 text-orange-500 p-2 mb-2 lg:mb-4 md:hidden"
           onClick={() => setIsFilterOpen(!isFilterOpen)}
         >
           <FontAwesomeIcon icon={faFilter} /> Filter
