@@ -5,9 +5,9 @@ import { faFacebook, faInstagram, faYoutube, faTwitter } from "@fortawesome/free
 function Footer() {
   return (
     <footer className="w-full bg-black text-white py-10">
-      {/* Main Footer Content */}
+    
       <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {/* Logo Section */}
+       
         <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
           <img src={Logo} alt="Bolt Cycles Logo" className="w-32 mb-4" />
           <p className="text-sm text-gray-400">
@@ -15,7 +15,7 @@ function Footer() {
           </p>
         </div>
 
-        {/* Useful Links Section */}
+       
         <div className="flex flex-col text-center lg:text-left">
           <h2 className="font-bold text-lg mb-3">Useful Links</h2>
           <ul className="space-y-2">
@@ -37,7 +37,7 @@ function Footer() {
           </ul>
         </div>
 
-        {/* Our Collections Section */}
+   
         <div className="flex flex-col text-center lg:text-left">
           <h2 className="font-bold text-lg mb-3">Our Collections</h2>
           <ul className="space-y-2">
@@ -54,7 +54,7 @@ function Footer() {
           </ul>
         </div>
 
-        {/* Social Media Icons */}
+       
         <div className="flex flex-col items-center lg:items-start">
           <h2 className="font-bold text-lg mb-3">Follow Us</h2>
           <div className="flex space-x-4">
@@ -94,7 +94,7 @@ function Footer() {
         </div>
       </div>
 
-      {/* Bottom Border */}
+     
       <div className="mt-8 border-t border-gray-800 pt-4 text-center">
         <p className="text-sm text-gray-400">
           All Rights Reserved | Bolt Cycles 2024
