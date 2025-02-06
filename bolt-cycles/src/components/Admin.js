@@ -23,25 +23,25 @@ function Admin() {
           <nav className="flex flex-col gap-4">
             <Link
               to="/admin"
-              className="text-white hover:bg-blue-600 p-2 rounded transition-all"
+              className="text-white hover:bg-gray-600 p-2 rounded transition-all"
             >
               Product List
             </Link>
             <Link
               to="/admin/orders"
-              className="text-white hover:bg-blue-600 p-2 rounded transition-all"
+              className="text-white hover:bg-gray-600 p-2 rounded transition-all"
             >
               Order List
             </Link>
             <Link
               to="/admin/update-product"
-              className="text-white hover:bg-blue-600 p-2 rounded transition-all"
+              className="text-white hover:bg-gray-600 p-2 rounded transition-all"
             >
               Update Product
             </Link>
             <Link
               to="/home"
-              className="text-white hover:bg-blue-600 p-2 rounded transition-all"
+              className="text-white hover:bg-gray-600 p-2 rounded transition-all"
             >
               Home
             </Link>
