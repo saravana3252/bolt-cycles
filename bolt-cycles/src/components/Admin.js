@@ -10,7 +10,7 @@ function Admin() {
   return (
     <div className="admin h-screen overflow-hidden">
       {/* Header */}
-      <header className="bg-blue-600 p-4 text-white flex justify-between items-center">
+      <header className="bg-gray-600 p-4 text-white flex justify-between items-center">
         <h1 className="text-2xl font-bold">Admin Panel</h1>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="mytoggle text-white size-12 flex justify-end cursor-pointer lg:hidden">
           <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
