@@ -8,7 +8,7 @@ function NewArrivals(props) {
 
     return (
         <div className="w-full">
-            <h1 className="text-center italic font-bold text-5xl py-5 lg:py-10">NEW ARRIVALS</h1>
+            <h1 className="text-center italic font-bold text-5xl py-5 lg:py-7">NEW ARRIVALS</h1>
             <div className="grid grid-cols-2 gap-2 lg:grid-cols-4">
                 {newarrival.map((data, index) => {
                     return (
